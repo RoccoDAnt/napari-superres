@@ -17,7 +17,7 @@ from napari_plugin_engine import napari_hook_implementation
 if TYPE_CHECKING:
     import napari
 
-from .MSSR import MSSR #check if this is importing
+from .MSSR import MSSR, TMSSR #check if this is importing
 
 
 # This is the actual plugin function, where we export our function
@@ -53,13 +53,13 @@ def image_arithmetic(
     return (operation.value(layerA, layerB), {"colormap": "turbo"})
 
 
-def srrf_module(viewer: 'napari.Viewer', label, layer: Image, magnification: int = 4, spatial_radius: int = 5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
+def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, spatial_radius: int = 5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
     pass
 #    if layer:
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
 
-def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
+def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
     #pass
     if layer:
 #        th=layer.data>threshold
@@ -67,7 +67,7 @@ def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_fact
         processed_img=TMSSR(layer, PSF_p,  amplification_factor, order, True)
         viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
 
-def esi_module(viewer: 'napari.Viewer', label, layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True)-> napari.types.ImageData:
+def esi_module(viewer: 'napari.Viewer', layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True)-> napari.types.ImageData:
     pass
 #    if layer:
 #        th=layer.data>threshold

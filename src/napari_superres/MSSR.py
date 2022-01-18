@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import scipy.interpolate as interpolate
+from napari.layers import Image, Labels, Layer, Points
 
 #Bicubic Interpolation
 def bicInter(img, amp, mesh):
@@ -14,7 +15,7 @@ def bicInter(img, amp, mesh):
     if mesh:
         Z2 = meshing(Z2, amp)
     return Z2
-    
+
 #Mesh compensation
 def meshing(img, amp):
     width, height = img.shape
@@ -26,7 +27,7 @@ def meshing(img, amp):
     imgS4 = imgPad[desp:width+desp, (desp*2):height+(desp*2)]
     imgF = (img + imgS1 + imgS2 + imgS3 + imgS4) / 5
     return imgF
-    
+
 #Spatial MSSR
 def MSSR(img, psf, amp, order, mesh):
 #    img = np.rot90(img, 1)
@@ -43,10 +44,10 @@ def MSSR(img, psf, amp, order, mesh):
             if i!=0 or j!=0:
                 xThis = xPad[hs+i:width+hs+i, hs+j:height+hs+j]
                 M = np.maximum(M, np.absolute(img-xThis))
-    
+
     weightAccum = np.zeros((width,height))
     yAccum = np.zeros((width,height))
-    
+
     for i in range(-hs, hs+1):
         for j in range(-hs, hs+1):
             if i!=0 or j!=0:
@@ -58,11 +59,11 @@ def MSSR(img, psf, amp, order, mesh):
                 weightThis = spatialkernel*intensityKernel
                 weightAccum = weightAccum + weightThis
                 yAccum = yAccum + (xThis*weightThis)
-    
+
     MS = img - (yAccum/weightAccum)
     MS[MS < 0] = 0
     MS[np.isnan(MS)] = 0
-    
+
     I3 = MS/(max(map(max, MS)))
     x3 = img/(max(map(max, img)))
     for i in range(order):
@@ -77,15 +78,16 @@ def MSSR(img, psf, amp, order, mesh):
 #    I3 = np.rot90(I3, 3)
     IMSSR = I3*maxValueImgOr
     return I3
-    
+
 #Temporal MSSR
-def TMSSR(img, psf, amp, order, mesh):
+def TMSSR(img_layer, psf, amp, order, mesh):
+    img=np.array(img_layer.data)
     nFrames, width, height = img.shape
     imgMSSR = np.zeros((nFrames,width*amp,height*amp))
     for nI in range(nFrames):
         imgMSSR[nI, :, :] = MSSR(img[nI], psf, amp, order, mesh)
     return imgMSSR
-    
+
 #Temporal Product Mean
 def TPM(img):
     nFrames, width, height = img.shape
@@ -96,7 +98,7 @@ def TPM(img):
     for i in range(nFrames):
         iTPM = iTPM + (SumTPM * img[i])
     return iTPM
-    
+
 #Auto-Cummulants
 def TRAC(img, k):
     nFrames, width, height = img.shape
