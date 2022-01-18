@@ -6,6 +6,8 @@ see: https://napari.org/docs/dev/plugins/hook_specifications.html
 
 Replace code below according to your needs.
 """
+from napari.layers import Image, Labels, Layer, Points
+import napari.types
 from typing import TYPE_CHECKING
 
 from enum import Enum
@@ -23,7 +25,7 @@ def napari_experimental_provide_function():
     # we can return a single function
     # or a tuple of (function, magicgui_options)
     # or a list of multiple functions with or without options, as shown here:
-    return [threshold, image_arithmetic, SRRF_module]
+    return [threshold, image_arithmetic, srrf_module, mssr_module]
 
 
 # 1.  First example, a simple function that thresholds an image and creates a labels layer
@@ -48,7 +50,15 @@ def image_arithmetic(
     """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
     return (operation.value(layerA, layerB), {"colormap": "turbo"})
 
-def SRRF_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
-    if layer:
-        th=layer.data>threshold
-        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+
+def srrf_module(viewer: 'napari.Viewer', label, layer: Image, magnification: int = 4, spatial_radius: float = 0.5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
+    pass
+#    if layer:
+#        th=layer.data>threshold
+#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+
+def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
+    pass
+#    if layer:
+#        th=layer.data>threshold
+#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
