@@ -80,8 +80,7 @@ def MSSR(img, psf, amp, order, mesh):
     return I3
 
 #Temporal MSSR
-def TMSSR(img_layer, psf, amp, order, mesh):
-    img=np.array(img_layer.data)
+def TMSSR(img, psf, amp, order, mesh):
     nFrames, width, height = img.shape
     imgMSSR = np.zeros((nFrames,width*amp,height*amp))
     for nI in range(nFrames):
