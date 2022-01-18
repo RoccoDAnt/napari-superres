@@ -25,7 +25,7 @@ def napari_experimental_provide_function():
     # we can return a single function
     # or a tuple of (function, magicgui_options)
     # or a list of multiple functions with or without options, as shown here:
-    return [threshold, image_arithmetic, srrf_module, mssr_module]
+    return [threshold, image_arithmetic, srrf_module, mssr_module, esi_module]
 
 
 # 1.  First example, a simple function that thresholds an image and creates a labels layer
@@ -51,13 +51,19 @@ def image_arithmetic(
     return (operation.value(layerA, layerB), {"colormap": "turbo"})
 
 
-def srrf_module(viewer: 'napari.Viewer', label, layer: Image, magnification: int = 4, spatial_radius: float = 0.5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
+def srrf_module(viewer: 'napari.Viewer', label, layer: Image, magnification: int = 4, spatial_radius: int = 5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
     pass
 #    if layer:
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
 
 def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
+    pass
+#    if layer:
+#        th=layer.data>threshold
+#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+
+def esi_module(viewer: 'napari.Viewer', label, layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True, nrBins: int = 2)-> napari.types.ImageData:
     pass
 #    if layer:
 #        th=layer.data>threshold
