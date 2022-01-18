@@ -47,3 +47,8 @@ def image_arithmetic(
 ) -> "napari.types.LayerDataTuple":
     """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
     return (operation.value(layerA, layerB), {"colormap": "turbo"})
+
+def SRRF_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
+    if layer:
+        th=layer.data>threshold
+        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))

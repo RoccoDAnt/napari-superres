@@ -30,6 +30,38 @@ import json
 import os
 import inspect
 
+protocols={'SRRF','MSSR'}
+
+
+@magic_factory(labels=False,
+         label={'widget_type':'Label', 'value':"SRRF_Parameters"},
+         threshold={'widget_type': 'FloatSlider', "max": 65535.0, 'min':0.0},
+         call_button="Apply",
+         persist=True
+         )
+def SRRF_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
+    if layer:
+        th=layer.data>threshold
+        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+
+@magic_factory(labels=False,
+         label={'widget_type':'Label', 'value':"MSSR_Parameters"},
+         threshold={'widget_type': 'FloatSlider', "max": 65535.0, 'min':0.0},
+         call_button="Apply",
+         persist=True
+         )
+def MSSR_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
+    if layer:
+        th=layer.data>threshold
+        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+
+@magic_factory(
+               auto_call=False,
+               call_button=True,
+               dropdown={"choices": protocols},
+               textbox={'widget_type': 'TextEdit', 'value': protocols_description, 'label':'napari-superres'},
+               labels=False
+                )
 def launch_superres(
         viewer: 'napari.Viewer',
         textbox,
@@ -47,23 +79,19 @@ def launch_superres(
                                enabled=True, gui_only=False, backend_kwargs={}, layout='horizontal', widgets=(), labels=True)
         viewer.window.add_dock_widget(dock_widgets, name=str(dropdown), area='bottom')
         if dropdown == 'SRRF':
-            single_pop_protocol=Container(name='', annotation=None, label=None, visible=True, enabled=True,
+            SRRF_processing=Container(name='', annotation=None, label=None, visible=True, enabled=True,
                                           gui_only=False, layout='horizontal', labels=False)
-            single_pop_protocol.insert(0, image_calibration)
-            single_pop_protocol.insert(1, gaussian_blur_one_pop)
-            single_pop_protocol.insert(2, threshold_one_pop)
+            SRRF_processing.insert(0, SRRF_module)
 
-            dock_widgets.insert(0,single_pop_protocol)
+            dock_widgets.insert(0, SRRF_processing)
 
-            launch_ZELDA._call_button.text = 'Restart with the selected plugin'
+            launch_superres._call_button.text = 'Restart with the selected plugin'
 
-        if dropdown == 'MRRF':
-            single_pop_protocol=Container(name='', annotation=None, label=None, visible=True, enabled=True,
+        if dropdown == 'MSSR':
+            MSSR_processing=Container(name='', annotation=None, label=None, visible=True, enabled=True,
                                           gui_only=False, layout='horizontal', labels=False)
-            single_pop_protocol.insert(0, image_calibration)
-            single_pop_protocol.insert(1, gaussian_blur_one_pop)
-            single_pop_protocol.insert(2, threshold_one_pop)
+            MSSR_processing.insert(0, MSSR_module)
 
-            dock_widgets.insert(0,single_pop_protocol)
+            dock_widgets.insert(0, MSSR_processing)
 
             launch_superres._call_button.text = 'Restart with the selected plugin'
