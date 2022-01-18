@@ -65,8 +65,13 @@ def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, s
 
 def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
     if layer:
-        processed_img=TMSSR(layer, PSF_p,  amplification_factor, order, True)
-        viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
+        img_layer = np.array(layer.data)
+        if len(img_layer.shape) == 2:
+            processed_img = MSSR(img_layer, PSF_p,  amplification_factor, order, True)
+            viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
+        elif len(img_layer.shape) == 3:
+            processed_img = TMSSR(img_layer, PSF_p,  amplification_factor, order, True)
+            viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
 
 def esi_module(viewer: 'napari.Viewer', layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True)-> napari.types.ImageData:
     pass
