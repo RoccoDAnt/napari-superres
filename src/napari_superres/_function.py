@@ -17,6 +17,8 @@ from napari_plugin_engine import napari_hook_implementation
 if TYPE_CHECKING:
     import napari
 
+from .MSSR import MSSR #check if this is importing
+
 
 # This is the actual plugin function, where we export our function
 # (The functions themselves are defined below)
@@ -57,13 +59,15 @@ def srrf_module(viewer: 'napari.Viewer', label, layer: Image, magnification: int
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
 
-def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: int = 1, order: int = 1)-> napari.types.ImageData:
-    pass
-#    if layer:
+def mssr_module(viewer: 'napari.Viewer', label, layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
+    #pass
+    if layer:
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+        processed_img=TMSSR(layer, PSF_p,  amplification_factor, order, True)
+        viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
 
-def esi_module(viewer: 'napari.Viewer', label, layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True, nrBins: int = 2)-> napari.types.ImageData:
+def esi_module(viewer: 'napari.Viewer', label, layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True)-> napari.types.ImageData:
     pass
 #    if layer:
 #        th=layer.data>threshold

@@ -14,6 +14,7 @@ from napari_plugin_engine import napari_hook_implementation
 
 @napari_hook_implementation
 def napari_experimental_provide_dock_widget():
-    from .napari_superres import launch_superres
-
-    return launch_superres
+    pass
+#    from .napari_superres import launch_superres
+#
+#    return launch_superres
