@@ -18,6 +18,8 @@ if TYPE_CHECKING:
     import napari
 
 from .MSSR import MSSR, TMSSR #check if this is importing
+from .srrf import srrf  #check if this is importing
+
 
 
 # This is the actual plugin function, where we export our function
@@ -53,17 +55,16 @@ def image_arithmetic(
     return (operation.value(layerA, layerB), {"colormap": "turbo"})
 
 
-def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, spatial_radius: int = 5, simmetry_axis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
-    pass
-#    if layer:
-#        th=layer.data>threshold
-#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
-
-def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
-    #pass
+def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, spatial_radius: int = 5, symmetryAxis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
     if layer:
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+        processed_iSRRF = srrf(layer, magnification, spatial_radius, symmetryAxis, fstart, fend)
+        viewer.add_image(processed_iSRRF, scale=layer.scale, name='SRRF_processed of '+str(layer.name))
+
+
+def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
+    if layer:
         processed_img=TMSSR(layer, PSF_p,  amplification_factor, order, True)
         viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
 
