@@ -7,7 +7,31 @@
 [![codecov](https://codecov.io/gh/RoccoDAnt/napari-superres/branch/main/graph/badge.svg)](https://codecov.io/gh/RoccoDAnt/napari-superres)
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/napari-superres)](https://napari-hub.org/plugins/napari-superres)
 
-Super-resolution napari plugins collection
+napari-superres, a plugin for super-resolution microscopy
+
+Open-source implementation of methods for Fluorescence Fluctuation based Super Resolution Microscopy (FF-SRM)
+
+Review: [Alva, A. et al. Fluorescence fluctuation based super resolution microscopy, basic concepts for an easy start. bioRxiv 2022.05.06.490863 (2022) doi:10.1101/2022.05.06.490863](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)
+
+Implemented methods so far:
+- SRRF
+- MSSR
+- ESI
+<br>
+
+
+| **Super Resolution Radial Fluctuations (SRRF)**  | **Mean-Shift Super Resolution (MSSR)** | **Entropy-based Super-resolution Imaging (ESI)** |
+| --- | --- | --- |
+| ![](docs/Fig_7_SRRF_Alva_2022.png) | ![](docs/Fig_2a_MSSR_Garcia_2021.png) | ![](docs/Fig_6_ESI_Alva_2022.png) |
+from Fig. 7 of [Alva et al., 2022](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full) | from Fig. 2 of [García et al., 2021](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)|  from Fig. 6 of [Alva et al., 2022](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)|
+
+References:<br>
+
+[Alva, A. et al. Fluorescence fluctuation based super resolution microscopy, basic concepts for an easy start. bioRxiv 2022.05.06.490863 (2022) doi:10.1101/2022.05.06.490863](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)
+
+[García, E. T. et al. Nanoscopic resolution within a single imaging frame. bioRxiv 2021.10.17.464398 (2021) doi:10.1101/2021.10.17.464398](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)
+
+
 
 ----------------------------------
 
