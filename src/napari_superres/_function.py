@@ -19,6 +19,7 @@ if TYPE_CHECKING:
 
 from .MSSR import MSSR, TMSSR #check if this is importing
 from .srrf import srrf  #check if this is importing
+from .ESI import ESI_Analysis
 
 
 
@@ -29,36 +30,10 @@ def napari_experimental_provide_function():
     # we can return a single function
     # or a tuple of (function, magicgui_options)
     # or a list of multiple functions with or without options, as shown here:
-    return [threshold, image_arithmetic, srrf_module, mssr_module, esi_module]
-
-
-# 1.  First example, a simple function that thresholds an image and creates a labels layer
-def threshold(data: "napari.types.ImageData", threshold: int) -> "napari.types.LabelsData":
-    """Threshold an image and return a mask."""
-    return (data > threshold).astype(int)
-
-
-# 2. Second example, a function that adds, subtracts, multiplies, or divides two layers
-
-# using Enums is a good way to get a dropdown menu.  Used here to select from np functions
-class Operation(Enum):
-    add = np.add
-    subtract = np.subtract
-    multiply = np.multiply
-    divide = np.divide
-
-
-def image_arithmetic(
-    layerA: "napari.types.ImageData", operation: Operation, layerB: "napari.types.ImageData"
-) -> "napari.types.LayerDataTuple":
-    """Adds, subtracts, multiplies, or divides two same-shaped image layers."""
-    return (operation.value(layerA, layerB), {"colormap": "turbo"})
-
+    return [srrf_module, mssr_module, esi_module]
 
 def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, spatial_radius: int = 5, symmetryAxis: int = 6, fstart: int = 0, fend: int = 100)-> napari.types.ImageData:
     if layer:
-#        th=layer.data>threshold
-#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
         processed_iSRRF = srrf(layer, magnification, spatial_radius, symmetryAxis, fstart, fend)
         #viewer.add_image(processed_iSRRF, scale=layer.scale, name='SRRF_processed of '+str(layer.name))
         viewer.add_image(processed_iSRRF, name='SRRF_processed of '+str(layer.name))
@@ -74,7 +49,7 @@ def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int
             viewer.add_image(processed_img, scale=layer.scale, name='MSSR_processed of '+str(layer.name))
 
 def esi_module(viewer: 'napari.Viewer', layer: Image, nrResImage: int = 10, nrBins: int = 100, esi_order: int = 4, normOutput: bool= True)-> napari.types.ImageData:
-    pass
-#    if layer:
-#        th=layer.data>threshold
-#        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
+    if layer:
+        img_layer = np.array(layer.data)
+        esi_SR = ESI_Analysis(img_layer, np.amin(img_layer), np.amax(img_layer), nrBins, esi_order, nrResImage, normOutput)
+        viewer.add_image(esi_SR, scale=layer.scale, name='ESI order='+str(esi_order)+' of '+str(layer.name))

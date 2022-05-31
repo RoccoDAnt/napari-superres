@@ -44,6 +44,11 @@ Examples of use:
 | ![](docs/SRRF_Original_Microtubules.png) | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png)|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
+| **Original**  | **ESI** |
+| --- | --- |
+| ![](docs/ESI_Original_donuts.png) | ![](docs/ESI_Processed_nrResImage_1_nrBins_2_esi_order_1_donuts.png) |
+| Parameters: | nrResImage: 1, nrBins: 2, esi_order: 1 |
+
 ----------------------------------
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
