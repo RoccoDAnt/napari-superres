@@ -60,8 +60,8 @@ def srrf_module(viewer: 'napari.Viewer', layer: Image, magnification: int = 4, s
 #        th=layer.data>threshold
 #        viewer.add_image(th, scale=layer.scale, name='Threshold th='+str(threshold)+' of '+str(layer.name))
         processed_iSRRF = srrf(layer, magnification, spatial_radius, symmetryAxis, fstart, fend)
-        viewer.add_image(processed_iSRRF, scale=layer.scale, name='SRRF_processed of '+str(layer.name))
-
+        #viewer.add_image(processed_iSRRF, scale=layer.scale, name='SRRF_processed of '+str(layer.name))
+        viewer.add_image(processed_iSRRF, name='SRRF_processed of '+str(layer.name))
 
 def mssr_module(viewer: 'napari.Viewer', layer: Image, amplification_factor: int = 1, PSF_p: float = 1.0, order: int = 1)-> napari.types.ImageData:
     if layer:
