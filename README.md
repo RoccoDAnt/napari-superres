@@ -31,7 +31,18 @@ References:<br>
 
 [García, E. T. et al. Nanoscopic resolution within a single imaging frame. bioRxiv 2021.10.17.464398 (2021) doi:10.1101/2021.10.17.464398](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)
 
+----------------------------------
+Examples of use:
 
+| **Original**  | **MSSR** |
+| --- | --- |
+| ![](docs/MSSR_original_donuts.png) | ![](docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png) |
+| Parameters: | amplification: 2, PSF_p: 1, order: 1 |
+
+| **Original**  | **SRRF** |
+| --- | --- |
+| ![](docs/SRRF_Original_Microtubules.png) | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png)|
+| Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
 ----------------------------------
 
