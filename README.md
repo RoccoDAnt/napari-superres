@@ -11,7 +11,7 @@ napari-superres, a plugin for super-resolution microscopy
 
 Open-source implementation of methods for Fluorescence Fluctuation based Super Resolution Microscopy (FF-SRM)
 
-Review: [Alva, A. et al. Fluorescence fluctuation based super resolution microscopy, basic concepts for an easy start. bioRxiv 2022.05.06.490863 (2022) doi:10.1101/2022.05.06.490863](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)
+Review: [Alva et al., 2022. “Fluorescence Fluctuation-Based Super-Resolution Microscopy: Basic Concepts for an Easy Start.” Journal of Microscopy, August. https://doi.org/10.1111/jmi.13135](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135)
 
 Implemented methods so far:
 - SRRF
@@ -23,11 +23,11 @@ Implemented methods so far:
 | **Super Resolution Radial Fluctuations (SRRF)**  | **Mean-Shift Super Resolution (MSSR)** | **Entropy-based Super-resolution Imaging (ESI)** |
 | --- | --- | --- |
 | ![](docs/Fig_7_SRRF_Alva_2022.png) | ![](docs/Fig_2a_MSSR_Garcia_2021.png) | ![](docs/Fig_6_ESI_Alva_2022.png) |
-from Fig. 7 of [Alva et al., 2022](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full) | from Fig. 2 of [García et al., 2021](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)|  from Fig. 6 of [Alva et al., 2022](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)|
+from Fig. 7 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135) | from Fig. 2 of [García et al., 2021](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)|  from Fig. 6 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135)|
 
 References:<br>
 
-[Alva, A. et al. Fluorescence fluctuation based super resolution microscopy, basic concepts for an easy start. bioRxiv 2022.05.06.490863 (2022) doi:10.1101/2022.05.06.490863](https://www.biorxiv.org/content/10.1101/2022.05.06.490863v1.full)
+[Alva et al. “Fluorescence Fluctuation-Based Super-Resolution Microscopy: Basic Concepts for an Easy Start.” Journal of Microscopy, August (2022). https://doi.org/10.1111/jmi.13135](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135)
 
 [García, E. T. et al. Nanoscopic resolution within a single imaging frame. bioRxiv 2021.10.17.464398 (2021) doi:10.1101/2021.10.17.464398](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)
 
@@ -62,17 +62,19 @@ https://napari.org/plugins/stable/index.html
 -->
 
 ## Installation
+Create a Conda environment and install napari:
 
-You can install `napari-superres` via [pip]:
+    conda create -y -n napari-sr -c conda-forge python=3.8
+    conda activate napari-sr
+    pip install "napari[all]“
 
-    pip install napari-superres
+Work in progress - Tested on napari 0.4.13:
 
-
-
-To install latest development version :
-
+    pip install napari==0.4.13
+    pip install imageio_ffmpeg
+    pip install matplotlib
+    conda install git
     pip install git+https://github.com/RoccoDAnt/napari-superres.git
-
 
 ## Contributing
 
