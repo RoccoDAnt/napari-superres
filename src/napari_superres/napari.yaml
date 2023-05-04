@@ -1,0 +1,40 @@
+name: napari-superres
+display_name: superres
+contributions:
+  commands:
+    - id: napari-superres.get_reader
+      python_name: napari_superres._reader:napari_get_reader
+      title: Open data with superres
+    - id: napari-superres.write_multiple
+      python_name: napari_superres._writer:write_multiple
+      title: Save multi-layer data with superres
+    - id: napari-superres.write_single_image
+      python_name: napari_superres._writer:write_single_image
+      title: Save image data with superres
+    - id: napari-superres.make_mssr_caller
+      python_name: napari_superres._gui_creator:mssr_caller
+      title: Make MSSR plugin GUI
+    - id: napari-superres.make_esi_caller
+      python_name: napari_superres._gui_creator:esi_caller
+      title: Make ESI plugin GUI
+    - id: napari-superres.make_SplitChannel
+      python_name: napari_superres._gui_creator:SplitChannelsWidget
+      title: Make Split Channel plugin
+  readers:
+    - command: napari-superres.get_reader
+      accepts_directories: false
+      filename_patterns: ['*.npy']
+  writers:
+    - command: napari-superres.write_multiple
+      layer_types: ['image*','labels*']
+      filename_extensions: []
+    - command: napari-superres.write_single_image
+      layer_types: ['image']
+      filename_extensions: ['.npy']
+  widgets:
+    - command: napari-superres.make_mssr_caller
+      display_name: MSSR
+    - command: napari-superres.make_esi_caller
+      display_name: ESI
+    - command: napari-superres.make_SplitChannel
+      display_name: Split Channels

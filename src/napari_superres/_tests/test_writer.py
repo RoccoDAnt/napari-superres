@@ -1,4 +1,4 @@
-# from napari_superres import napari_get_writer, napari_write_image
+# from lnma_superres import write_single_image, write_multiple
 
 # add your tests here...
 
