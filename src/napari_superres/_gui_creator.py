@@ -170,7 +170,17 @@ class mssr_caller(QWidget):
 
     def decorr(self):
         # load image
-        image = self.viewer.layers.selection.active.data
+        image_input = self.viewer.layers.selection.active.data
+        im_dim = image_input.shape
+        if  len(im_dim) > 2:
+            dummy = np.zeros((im_dim[0]))
+            for i in range(im_dim[0]):
+                dummy[i] = np.var(image_input[i,:,:])
+                sl = np.argmax(dummy)
+            image=image_input[sl,:,:]
+            print("selected layer: ",sl)
+        else:
+            image = image_input
 
         pps = 5  # projected pixel size of 15nm
         # typical parameters for resolution estimate
