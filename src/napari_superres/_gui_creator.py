@@ -27,12 +27,14 @@ import sys
 
 
 from .core_mssr import mssr_class
+from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
 
 
 #Import MSSR core
 my_mssr = mssr_class()
+my_esi = esi_class()
 
 
 class mssr_caller(QWidget):
@@ -317,13 +319,81 @@ class esi_caller(QWidget):
 
     def build(self):
         #instanciating the widgets items
+
         label1 = QLabel()
-        label1.setText("Upcoming...")
+        label1.setText("# images in output")
+        self.spinBox1 = QSpinBox()
+        self.spinBox1.setMinimum(1)
+        self.spinBox1.setMaximum(200)
+        self.spinBox1.setValue(10)
+
+        label2 = QLabel()
+        label2.setText("# bins for entropy")
+        self.spinBox2 = QSpinBox()
+        self.spinBox2.setMinimum(1)
+        self.spinBox2.setMaximum(200)
+        self.spinBox2.setValue(100)
+
+        label3 = QLabel()
+        label3.setText("Order")
+        self.spinBox3 = QSpinBox()
+        self.spinBox3.setMinimum(1)
+        self.spinBox3.setValue(4)
+
+        self.CheckBox1 = QCheckBox()
+        self.CheckBox1.setText("Intensity Normalization")
+        self.CheckBox1.setChecked(True)
+
+        btnG = QPushButton("Run")
+        myFont=QtGui.QFont()
+        myFont.setBold(True)
+        btnG.setFont(myFont)
+        btnG.clicked.connect(self._run)
+
+
         #Seting up widget layout
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(label1)
+        self.layout().addWidget(self.spinBox1)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(label2)
+        self.layout().addWidget(self.spinBox2)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(label3)
+        self.layout().addWidget(self.spinBox3)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(self.CheckBox1)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(btnG)
 
-    #Rest of methods of the esi_caller class
+#Rest of methods of the esi_caller class
+
+    def _run(self):
+        im = self.viewer.layers.selection.active
+        self.selected_im_name = str(self.viewer.layers.selection.active)
+
+        if self.CheckBox1.checkState() == 0:
+            normOutput = False
+        else:
+            normOutput = True
+
+        if im.rgb == True:
+            raise TypeError("Only single channel images are allowed")
+        elif len(im.data.shape) < 3 or im.data.shape[0] == 1:
+            raise TypeError("Image stack should be provided")
+        else:
+            stck = im.data
+            esi_result = my_esi.ESI_Analysis(stck, np.amin(stck), np.amax(stck), self.spinBox2.value(), self.spinBox3.value(), self.spinBox1.value(), normOutput)
+
+            self.viewer.add_image(esi_result, name="ESI "+self.selected_im_name)
+
+            print(esi_result.shape)
+
+            if esi_result.shape[0] > 2:
+                sum_esi = np.sum(esi_result, axis=0)
+                self.viewer.add_image(sum_esi, name="summed ESI "+self.selected_im_name)
+
+
 
 class SplitChannelsWidget(QWidget):
 
