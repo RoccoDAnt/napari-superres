@@ -160,6 +160,7 @@ For details check: https://napari.org/stable/
 
 To install latest development version :
 
+    conda install git
     pip install git+https://github.com/Dr2-JMM/lnma-superres.git
 
 
