@@ -127,9 +127,12 @@ Review: [Alva et al., 2022. “Fluorescence Fluctuation-Based Super-Resolution M
 
 MSSR article: [Torres-García, E., Pinto-Cámara, R., Linares, A. et al. Extending resolution within a single imaging frame. Nat Commun 13, 7452 (2022). https://doi.org/10.1038/s41467-022-34693-9](https://doi.org/10.1038/s41467-022-34693-9)
 
+ESI article: [Idir Yahiatene, Simon Hennig, Marcel Müller, Thomas Huser (2015/2016). "Entropy-based Super-resolution Imaging (ESI): From Disorder to Fine Detail"
+ACS Photonics. https://doi.org/10.1021/acsphotonics.5b00307](https://doi.org/10.1021/acsphotonics.5b00307)
+
 Implemented methods so far:
 - MSSR
-<!-- - ESI -->
+- ESI
 
 ----------------------------------
 
@@ -160,7 +163,6 @@ For details check: https://napari.org/stable/
 
 To install latest development version :
 
-    conda install git
     pip install git+https://github.com/Dr2-JMM/lnma-superres.git
 
 
