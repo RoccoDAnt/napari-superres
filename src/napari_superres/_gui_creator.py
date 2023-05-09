@@ -26,7 +26,7 @@ import os
 import sys
 
 
-from .core_mssr_numba import mssr_class
+from .core_mssr import mssr_class
 from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
