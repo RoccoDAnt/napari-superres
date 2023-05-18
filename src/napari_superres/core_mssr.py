@@ -1,6 +1,7 @@
 import numpy as np
 import math
 import scipy.interpolate as interpolate
+from napari.utils import progress
 #from napari.layers import Image, Labels, Layer, Points
 #import matplotlib.pyplot as plt
 
@@ -77,7 +78,7 @@ class mssr_class:
         width, height = img.shape
         xPad = np.pad(img, hs, 'symmetric')
         M = np.zeros((width,height))
-        for i in range(-hs, hs+1):
+        for i in progress(range(-hs, hs+1)):
             for j in range(-hs, hs+1):
                 if i!=0 or j!=0:
                     xThis = xPad[hs+i:width+hs+i, hs+j:height+hs+j]
@@ -86,7 +87,7 @@ class mssr_class:
         weightAccum = np.zeros((width,height))
         yAccum = np.zeros((width,height))
 
-        for i in range(-hs, hs+1):
+        for i in progress(range(-hs, hs+1)):
             for j in range(-hs, hs+1):
                 if i!=0 or j!=0:
                     spatialkernel = np.exp(-(pow(i,2)+pow(j,2))/pow((hs),2))
@@ -124,7 +125,7 @@ class mssr_class:
     	img=np.array(img_layer.data)
     	nFrames, width, height = img.shape
     	imgMSSR = np.zeros((nFrames,width*amp,height*amp))
-    	for nI in range(nFrames):
+    	for nI in progress(range(nFrames)):
     		print("Image " + str(nI+1))
     		imgMSSR[nI, :, :] = self.sfMSSR(img[nI], fwhm, amp, order, mesh, ftI, intNorm)
     	return imgMSSR

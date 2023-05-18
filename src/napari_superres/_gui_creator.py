@@ -208,6 +208,7 @@ class mssr_caller(QWidget):
         #print(f'kcMax : {kcMax:.3f}, A0 : {A0[0]:.3f}')
         #print(f'Resolution: {2/kcMax:.3f}, [pixels]')
         self.DoubleSpinBox1.setValue(res)
+        self.msg.close()
 
 
     def batch(self):
