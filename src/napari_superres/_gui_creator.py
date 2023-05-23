@@ -418,20 +418,28 @@ class SplitChannelsWidget(QWidget):
         layer_data = self.viewer.layers.selection.active.data
 
         # Check if the layer is an RGB image
-        if layer_data.ndim != 3 or layer_data.shape[-1] != 3:
+        # if layer_data.ndim > 2 and layer_data.shape[-1] != 3:
+        #     raise TypeError("The current layer is not a MULTICHANNEL image")
+        if self.viewer.layers.selection.active.rgb == False:
             raise TypeError("The current layer is not an RGB image")
 
-        # Split the RGB image into separate channels
-        red = layer_data[:, :, 0]
-        green = layer_data[:, :, 1]
-        blue = layer_data[:, :, 2]
+        if layer_data.shape[-1] == 3:
+            # Split the RGB image into separate channels
+            red = layer_data[:, :, 0]
+            green = layer_data[:, :, 1]
+            blue = layer_data[:, :, 2]
 
-        # Create three new ImageData objects for each channel
-        red_data = ImageData(red)
-        green_data = ImageData(green)
-        blue_data = ImageData(blue)
+            # Create three new ImageData objects for each channel
+            red_data = ImageData(red)
+            green_data = ImageData(green)
+            blue_data = ImageData(blue)
 
-        # Create three LayerDataTuple objects to add the new layers to napari
-        self.viewer.add_image(data=red_data, name="Red", colormap="red")
-        self.viewer.add_image(data=green_data, name="Green", colormap="green")
-        self.viewer.add_image(data=blue_data, name="Blue", colormap="blue")
+            # Create three LayerDataTuple objects to add the new layers to napari
+            self.viewer.add_image(data=red_data, name="Red", colormap="red")
+            self.viewer.add_image(data=green_data, name="Green", colormap="green")
+            self.viewer.add_image(data=blue_data, name="Blue", colormap="blue")
+
+        else:
+            layer_name = self.viewer.layers.selection.active.name
+            for n in range(layer_data.shape[-1]):
+                self.viewer.add_image(data=layer_data[:,:,n], name=layer_name + " Ch "+str(n))
