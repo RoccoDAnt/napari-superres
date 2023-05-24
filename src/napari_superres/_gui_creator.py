@@ -31,7 +31,6 @@ from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
 
-
 #Import MSSR core
 my_mssr = mssr_class()
 my_esi = esi_class()
@@ -183,17 +182,14 @@ class mssr_caller(QWidget):
             print("selected layer: ",sl)
         else:
             image = image_input
-
         pps = 5  # projected pixel size of 15nm
         # typical parameters for resolution estimate
         Nr = 50
         Ng = 10
         r = np.linspace(0, 1, Nr)
         GPU = False
-
         # Apodize image edges with a cosine function over 20 pixels
         image, mask = apodImRect(image, 20)
-
         # Compute resolution
         figID = 100
         if GPU:
@@ -218,15 +214,14 @@ class mssr_caller(QWidget):
         first.pop()
         my_dir = "/".join(first)
         self.results_dir = my_dir+"/MSSR_resuslts"
-        os.mkdir(self.results_dir)
+
 
 
 
 
     def _run(self):
-        if self.viewer.layers.selection.active.rgb == True:
-            raise TypeError("Only single channel images are allowed")
-        else:
+        if str(self.viewer.layers.selection.active) == 'None' and self.flagBatch == True:
+            self.flagBatch = False
             fwhm = self.DoubleSpinBox1.value()
             amp = self.spinBox1.value()
             order = self.spinBox3.value()
@@ -248,10 +243,13 @@ class mssr_caller(QWidget):
             else:
                 tempAn = True
 
-            if self.flagBatch == True:
-                self.flagBatch = False
+            if tempAn == False:
+                os.mkdir(self.results_dir)
                 for el in self.my_files:
-                    img = io.imread(el)
+                    try:
+                        img = io.imread(el)
+                    except:
+                        continue
                     if len(img.shape) == 2:
                         processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                         io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
@@ -259,30 +257,101 @@ class mssr_caller(QWidget):
                         processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                         io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
             else:
+                first = self.results_dir.split("/")
+                first.pop()
+                my_dir = "/".join(first)
+                if  first[-1] == "MSSR_resuslts":
+                    tempAn_dir = my_dir + "/tMSSR_resuslts"
+                    if os.path.exists(tempAn_dir) == False:
+                        os.mkdir(tempAn_dir)
 
-                self.selected_im_name = str(self.viewer.layers.selection.active)
-                img = self.viewer.layers[self.selected_im_name].data
+                    for el in self.my_files:
+                        try:
+                            img = io.imread(el)
+                        except:
+                            continue
+                        if len(img.shape) == 3:
+                            temp_procesed, staMeth = self.call_statistical_int_batch(img)
+                            el_name = el.split("/")[-1].split(".")[0]
+                            el_format = el.split(".")[-1]
+                            io.imsave(tempAn_dir+"/"+"t"+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+
+                else:
+                    os.mkdir(self.results_dir)
+                    for el in self.my_files:
+                        try:
+                            img = io.imread(el)
+                        except:
+                            continue
+                        if len(img.shape) == 2:
+                            processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
+                            io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                        elif len(img.shape) == 3:
+                            tempAn_dir = self.results_dir + "/tMSSR_resuslts"
+                            if os.path.exists(tempAn_dir) == False:
+                                os.mkdir(tempAn_dir)
+                            processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
+                            io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                            temp_procesed, staMeth = self.call_statistical_int_batch(processed_img)
+                            el_name = el.split("/").pop().split(".")[0]
+                            el_format = el.split("/").pop().split(".")[-1]
+                            io.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+
+
+
+        elif self.viewer.layers.selection.active.rgb == True:
+            raise TypeError("Only single channel images are allowed")
+
+        else:
+            self.selected_im_name = str(self.viewer.layers.selection.active)
+            img = self.viewer.layers[self.selected_im_name].data
+
+            fwhm = self.DoubleSpinBox1.value()
+            amp = self.spinBox1.value()
+            order = self.spinBox3.value()
+
+            if self.CheckBox1.checkState() == 0:
+                mesh = False
+            else:
+                mesh = True
+            if self.ComboBox4.currentText() == "Fourier":
+                ftI = True
+            else:
+                ftI = False
+            if self.CheckBox4.checkState() == 0:
+                intNorm = False
+            else:
+                intNorm = True
+            if self.CheckBox5.checkState() == 0:
+                tempAn = False
+            else:
+                tempAn = True
+
+            if self.flag == True:
+                if self.track_name not in self.viewer.layers:
+                    self.flag = False
+
+            if len(img.shape) == 2:
+                processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
+                self.viewer.add_image(processed_img, name="MSSR "+self.selected_im_name)
+            elif len(img.shape) == 3 and tempAn == False:
+                processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
+                self.track_name = "MSSR "+self.selected_im_name
+                self.viewer.add_image(processed_img, name= self.track_name)
+                self.flag = True
+            elif len(img.shape) == 3 and tempAn == True:
                 if self.flag == True:
-                    if self.track_name not in self.viewer.layers:
-                        self.flag = False
-
-                if len(img.shape) == 2:
-                    processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                    self.viewer.add_image(processed_img, name="MSSR "+self.selected_im_name)
-                elif len(img.shape) == 3 and tempAn == False:
+                    self.call_statistical_int(self.viewer.layers.selection.active.data)
+                else:
                     processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                     self.track_name = "MSSR "+self.selected_im_name
                     self.viewer.add_image(processed_img, name= self.track_name)
+                    self.call_statistical_int(processed_img)
                     self.flag = True
-                elif len(img.shape) == 3 and tempAn == True:
-                    if self.flag == True:
-                        self.call_statistical_int(self.viewer.layers.selection.active.data)
-                    else:
-                        processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                        self.track_name = "MSSR "+self.selected_im_name
-                        self.viewer.add_image(processed_img, name= self.track_name)
-                        self.call_statistical_int(processed_img)
-                        self.flag = True
+
+        napari.utils.notifications.show_info("Process complete")
+
+
 
 
     def call_statistical_int(self,processed_img):
@@ -306,6 +375,26 @@ class mssr_caller(QWidget):
             self.viewer.add_image(tIm, name="t"+self.selected_im_name+" "+staMeth)
         else:
             self.viewer.add_image(tIm, name="tMSSR "+self.selected_im_name+" "+staMeth)
+
+
+    def call_statistical_int_batch(self,processed_img):
+        staMeth = self.ComboBoxT.currentText()
+        if staMeth == "TPM":
+            print("TPM")
+            tIm = my_mssr.TPM(processed_img)
+        elif staMeth == "Var":
+            tIm = my_mssr.tVar(processed_img)
+            print("Var")
+        elif staMeth == "Mean":
+            tIm = my_mssr.tMean(processed_img)
+            print("Mean")
+        elif staMeth == "SOFI":
+            tIm = my_mssr.TRAC(processed_img, self.spinBoxS.value())
+            print("SOFI")
+        elif staMeth == "CV·σ":
+            print("Coefficient of Variation times Standard Deviation")
+            tIm = my_mssr.varCoef(processed_img)
+        return tIm, staMeth
 
 
 
@@ -394,6 +483,7 @@ class esi_caller(QWidget):
                 sum_esi = np.sum(esi_result, axis=0)
                 self.viewer.add_image(sum_esi, name="summed ESI "+self.selected_im_name)
 
+        napari.utils.notifications.show_info("Process complete")
 
 
 class SplitChannelsWidget(QWidget):
