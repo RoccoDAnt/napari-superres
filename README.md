@@ -166,6 +166,7 @@ To install latest development version :
     pip install git+https://github.com/Dr2-JMM/lnma-superres.git
 
 
+You might need to install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) first.
 ## Contributing
 
 Contributions are very welcome. Tests can be run with [tox], please ensure
