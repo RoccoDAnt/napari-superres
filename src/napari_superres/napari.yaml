@@ -17,6 +17,9 @@ contributions:
     - id: napari-superres.make_esi_caller
       python_name: napari_superres._gui_creator:esi_caller
       title: Make ESI plugin GUI
+    - id: napari-superres.make_sofi_caller
+      python_name: napari_superres._gui_creator:sofi_caller
+      title: Make SOFI plugin GUI
     - id: napari-superres.make_SplitChannel
       python_name: napari_superres._gui_creator:SplitChannelsWidget
       title: Make Split Channel plugin
@@ -36,5 +39,7 @@ contributions:
       display_name: MSSR
     - command: napari-superres.make_esi_caller
       display_name: ESI
+    - command: napari-superres.make_sofi_caller
+      display_name: SOFI
     - command: napari-superres.make_SplitChannel
       display_name: Split Channels

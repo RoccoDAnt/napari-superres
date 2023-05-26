@@ -2,7 +2,6 @@
 This module is creates the GUI for the FF SRM methods
 """
 from typing import TYPE_CHECKING
-#from napari.layers import Image, Labels, Layer, Points
 
 from magicgui import magic_factory, magicgui
 from qtpy import   QtCore, QtGui
@@ -19,7 +18,6 @@ if TYPE_CHECKING:
     import napari
 
 import napari
-from napari.types import ImageData
 import numpy as np
 from vispy.color import Colormap
 import os
@@ -30,10 +28,12 @@ from .core_mssr import mssr_class
 from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
+from .core_sofi import sofi_class
 
 #Import MSSR core
 my_mssr = mssr_class()
 my_esi = esi_class()
+my_sofi = sofi_class()
 
 
 class mssr_caller(QWidget):
@@ -216,9 +216,6 @@ class mssr_caller(QWidget):
         self.results_dir = my_dir+"/MSSR_resuslts"
 
 
-
-
-
     def _run(self):
         if str(self.viewer.layers.selection.active) == 'None' and self.flagBatch == True:
             self.flagBatch = False
@@ -396,8 +393,6 @@ class mssr_caller(QWidget):
             tIm = my_mssr.varCoef(processed_img)
         return tIm, staMeth
 
-
-
 class esi_caller(QWidget):
 
     def __init__(self, napari_viewer):
@@ -485,6 +480,190 @@ class esi_caller(QWidget):
 
         napari.utils.notifications.show_info("Process complete")
 
+class sofi_caller(QWidget):
+
+    def __init__(self, napari_viewer):
+        super().__init__()
+        self.viewer = napari_viewer
+    #widgets instantiation to be added to the viewer layout
+    #only vatriables to be called for other functions are set as self.
+        self.build()
+
+
+    def build(self):
+        #instanciating the widgets items
+        label1 = QLabel()
+        label1.setText("Amplification Factor")
+        self.spinBox1 = QSpinBox()
+        self.spinBox1.setMinimum(1)
+        self.spinBox1.setMaximum(10)
+        self.spinBox1.setValue(2)
+
+        label2 = QLabel()
+        label2.setText("Moment Order")
+        self.spinBox2 = QSpinBox()
+        self.spinBox2.setMinimum(1)
+        self.spinBox2.setMaximum(100)
+        self.spinBox2.setValue(4)
+
+        self.CheckBox1 = QCheckBox()
+        self.CheckBox1.setText("\t\tGaussian mask\n \t\t\tparameters")
+        self.CheckBox1.setChecked(False)
+        self.CheckBox1.toggled.connect(self.setGM)
+        self.CheckBox1.setHidden(True)
+
+        self.label3 = QLabel()
+        self.label3.setText("Gaussian mask shape")
+        self.spinBox3 = QSpinBox()
+        self.spinBox3.setMinimum(1)
+        self.spinBox3.setMaximum(999)
+        self.spinBox3.setValue(204)
+        self.label3.setHidden(True)
+        self.spinBox3.setHidden(True)
+
+        self.label4 = QLabel()
+        self.label4.setText("Gaussian mask \u03C3")
+        self.spinBox4 = QSpinBox()
+        self.spinBox4.setMinimum(1)
+        self.spinBox4.setMaximum(100)
+        self.spinBox4.setValue(8)
+        self.label4.setHidden(True)
+        self.spinBox4.setHidden(True)
+
+        self.CheckBox2 = QCheckBox()
+        self.CheckBox2.setText("\tSK deconvolution\n \t\t\tparameters")
+        self.CheckBox2.setChecked(False)
+        self.CheckBox2.toggled.connect(self.setSKD)
+
+        self.label5 = QLabel()
+        self.label5.setText("\u03BB parameter")
+        self.spinBox5 = QDoubleSpinBox()
+        self.spinBox5.setMinimum(1)
+        self.spinBox5.setMaximum(99)
+        self.spinBox5.setValue(1.5)
+        self.label5.setHidden(True)
+        self.spinBox5.setHidden(True)
+
+        self.label6 = QLabel()
+        self.label6.setText("No. of iterations")
+        self.spinBox6 = QSpinBox()
+        self.spinBox6.setMinimum(1)
+        self.spinBox6.setMaximum(100)
+        self.spinBox6.setValue(20)
+        self.label6.setHidden(True)
+        self.spinBox6.setHidden(True)
+
+        self.label7 = QLabel()
+        self.label7.setText("Window size")
+        self.spinBox7 = QSpinBox()
+        self.spinBox7.setMinimum(1)
+        self.spinBox7.setMaximum(999)
+        self.spinBox7.setValue(100)
+        self.label7.setHidden(True)
+        self.spinBox7.setHidden(True)
+
+
+        btnRun = QPushButton("Run")
+        myFont=QtGui.QFont()
+        myFont.setBold(True)
+        btnRun.setFont(myFont)
+        btnRun.clicked.connect(self._run)
+
+
+        #Seting up widget layout
+        self.setLayout(QVBoxLayout())
+
+        self.layout().addWidget(label1)
+        self.layout().addWidget(self.spinBox1)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(label2)
+        self.layout().addWidget(self.spinBox2)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(self.CheckBox2)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(self.label5)
+        self.layout().addWidget(self.spinBox5)
+        self.layout().addWidget(self.label6)
+        self.layout().addWidget(self.spinBox6)
+        self.layout().addWidget(self.label7)
+        self.layout().addWidget(self.spinBox7)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(self.CheckBox1)
+        self.layout().addSpacing(20)
+        self.layout().addWidget(self.label3)
+        self.layout().addWidget(self.spinBox3)
+        self.layout().addWidget(self.label4)
+        self.layout().addWidget(self.spinBox4)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(btnRun)
+
+    def setGM(self, val):
+        if val == True:
+            self.label3.setHidden(False)
+            self.spinBox3.setHidden(False)
+            self.label4.setHidden(False)
+            self.spinBox4.setHidden(False)
+        else:
+            self.label3.setHidden(True)
+            self.spinBox3.setHidden(True)
+            self.label4.setHidden(True)
+            self.spinBox4.setHidden(True)
+
+    def setSKD(self, val):
+        if val == True:
+            self.label5.setHidden(False)
+            self.spinBox5.setHidden(False)
+            self.label6.setHidden(False)
+            self.spinBox6.setHidden(False)
+            self.label7.setHidden(False)
+            self.spinBox7.setHidden(False)
+            self.CheckBox1.setHidden(False)
+        else:
+            self.label5.setHidden(True)
+            self.spinBox5.setHidden(True)
+            self.label6.setHidden(True)
+            self.spinBox6.setHidden(True)
+            self.label7.setHidden(True)
+            self.spinBox7.setHidden(True)
+            self.CheckBox1.setHidden(True)
+            self.label3.setHidden(True)
+            self.spinBox3.setHidden(True)
+            self.label4.setHidden(True)
+            self.spinBox4.setHidden(True)
+
+
+    def _run(self):
+        im = self.viewer.layers.selection.active.data
+        self.selected_im_name = str(self.viewer.layers.selection.active)
+
+        if im.ndim < 3 or im.shape[0] < 3:
+            raise TypeError("The current layer is not an STACK!")
+
+
+        #"Amplification Factor"
+        interp = self.spinBox1.value()
+        #"Moment Order"
+        order_val = self.spinBox2.value()
+        #"Gaussian mask shape"
+        gms=self.spinBox3.value()
+        #"Gaussian mask sigma
+        gm_sigma = self.spinBox4.value()
+        #lambda parameter"
+        deconv_lambda = self.spinBox5.value()
+        #"No. of iterations"
+        deconv_iter = self.spinBox6.value()
+        #"Window size"
+        window_size = [self.spinBox7.value(), self.spinBox7.value()]
+
+
+        moment_im = my_sofi.moment_image(im, order=order_val, mean_im=None,finterp=True, interp_num = interp)
+        deconv_psf0 = my_sofi.gauss2d_mask((gms, gms), gm_sigma)
+        deconv_psf0 = deconv_psf0 / np.max(deconv_psf0)
+        deconv_im = my_sofi.deconvsk(deconv_psf0, moment_im, deconv_lambda, deconv_iter)
+        mask_im = my_sofi.average_image_with_finterp(im,interp)
+        ldrc_im = my_sofi.ldrc(window_size = window_size, mask_im = mask_im, input_im = deconv_im)
+        self.viewer.add_image(ldrc_im, name="SOFI "+self.selected_im_name)
+        napari.utils.notifications.show_info("Process complete")
 
 class SplitChannelsWidget(QWidget):
 
@@ -520,9 +699,9 @@ class SplitChannelsWidget(QWidget):
             blue = layer_data[:, :, 2]
 
             # Create three new ImageData objects for each channel
-            red_data = ImageData(red)
-            green_data = ImageData(green)
-            blue_data = ImageData(blue)
+            red_data = napari.types.ImageData(red)
+            green_data = napari.types.ImageData(green)
+            blue_data = napari.types.ImageData(blue)
 
             # Create three LayerDataTuple objects to add the new layers to napari
             self.viewer.add_image(data=red_data, name="Red", colormap="red")
