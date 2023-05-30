@@ -2,8 +2,7 @@ import numpy as np
 import math
 import scipy.interpolate as interpolate
 from napari.utils import progress
-#from napari.layers import Image, Labels, Layer, Points
-#import matplotlib.pyplot as plt
+
 
 class mssr_class:
     def __init__(self):

@@ -29,11 +29,13 @@ from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
 from .core_sofi import sofi_class
+from .core_srrf import srrf_class
 
-#Import MSSR core
+#Import FF-SRM methods cores
 my_mssr = mssr_class()
 my_esi = esi_class()
 my_sofi = sofi_class()
+my_srrf = srrf_class()
 
 
 class mssr_caller(QWidget):
@@ -664,6 +666,209 @@ class sofi_caller(QWidget):
         ldrc_im = my_sofi.ldrc(window_size = window_size, mask_im = mask_im, input_im = deconv_im)
         self.viewer.add_image(ldrc_im, name="SOFI "+self.selected_im_name)
         napari.utils.notifications.show_info("Process complete")
+
+class srrf_caller(QWidget):
+
+    def __init__(self, napari_viewer):
+        super().__init__()
+        self.viewer = napari_viewer
+        #self.viewer.layers.events.inserting.connect(self.pbta)
+        #self.viewer.layers.selection.events.changed.connect(self.pbta)
+        self.viewer.layers.selection.events.active.connect(self.pbta)
+        self.the_name = " "
+    #widgets instantiation to be added to the viewer layout
+    #only vatriables to be called for other functions are set as self.
+        self.build()
+        self.pbta()
+
+
+
+    def build(self):
+        #instanciating the widgets items
+        label1 = QLabel()
+        label1.setText("Amplification Factor")
+        self.spinBox1 = QSpinBox()
+        self.spinBox1.setMinimum(1)
+        self.spinBox1.setMaximum(10)
+        self.spinBox1.setValue(1)
+
+        label2 = QLabel()
+        label2.setText("Spatial radius")
+        self.spinBox2 = QSpinBox()
+        self.spinBox2.setMinimum(1)
+        self.spinBox2.setMaximum(10)
+        self.spinBox2.setValue(5)
+
+        label3 = QLabel()
+        label3.setText("Symetry Axis")
+        self.spinBox3 = QSpinBox()
+        self.spinBox3.setMinimum(1)
+        self.spinBox3.setMaximum(10)
+        self.spinBox3.setValue(6)
+
+        label4 = QLabel()
+        label4.setText("Start frame")
+        self.spinBox4 = QSpinBox()
+        self.spinBox4.setMinimum(0)
+        self.spinBox4.setMaximum(1000)
+        self.spinBox4.setValue(0)
+
+        label5 = QLabel()
+        label5.setText("End frame")
+        self.spinBox5 = QSpinBox()
+        self.spinBox5.setMinimum(0)
+        self.spinBox5.setMaximum(1000)
+        self.spinBox5.setValue(2)
+
+        self.CheckBox1 = QCheckBox()
+        self.CheckBox1.setText("Change statistical\nintegration")
+        self.CheckBox1.setChecked(False)
+        self.CheckBox1.toggled.connect(self.setTemp)
+
+        self.ComboBoxT = QComboBox()
+        self.ComboBoxT.clear()
+        self.ComboBoxT.addItems(["TPM","Var","SOFI","CV·σ"])
+        self.ComboBoxT.currentTextChanged.connect(self.onActivated)
+        self.ComboBoxT.setHidden(True)
+
+        self.spinBoxS = QSpinBox()
+        self.spinBoxS.setMinimum(1)
+        self.spinBoxS.setMaximum(3)
+        self.spinBoxS.setHidden(True)
+
+        btnRun = QPushButton("Run")
+        myFont=QtGui.QFont()
+        myFont.setBold(True)
+        btnRun.setFont(myFont)
+        btnRun.clicked.connect(self._run)
+
+
+        #Seting up widget layout
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(label1)
+        self.layout().addWidget(self.spinBox1)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(label2)
+        self.layout().addWidget(self.spinBox2)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(label3)
+        self.layout().addWidget(self.spinBox3)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(label4)
+        self.layout().addWidget(self.spinBox4)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(label5)
+        self.layout().addWidget(self.spinBox5)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(self.CheckBox1)
+        self.layout().addWidget(self.ComboBoxT)
+        self.layout().addWidget(self.spinBoxS)
+        self.layout().addSpacing(40)
+        self.layout().addWidget(btnRun)
+
+    def setTemp(self,d):
+        if d == True:
+            #self.labelT.setHidden(False)
+            self.ComboBoxT.setHidden(False)
+        else:
+            #self.labelT.setHidden(True)
+            self.ComboBoxT.setHidden(True)
+            self.spinBoxS.setHidden(True)
+
+    def pbta(self):
+        try:
+            im = self.viewer.layers.selection.active.data
+            if len(im.shape) < 3:
+                self.spinBox5.setValue(0)
+            else:
+                len_im = im.shape[0] - 1
+                self.spinBox5.setValue(len_im)
+        except:
+            print(" ")
+
+    def onActivated(self,s):
+        if s == "SOFI":
+            self.spinBoxS.setHidden(False)
+        else:
+            self.spinBoxS.setHidden(True)
+
+
+    def _run(self):
+
+        if self.the_name in self.viewer.layers:
+            exist_flag = True
+        else:
+            exist_flag = False
+
+        if exist_flag and self.CheckBox1.checkState() == 2:
+            staMeth = self.ComboBoxT.currentText()
+            processed_iSRRF = self.viewer.layers[self.the_name].data
+            if staMeth == "TPM":
+                tIm = my_mssr.TPM(processed_iSRRF)
+            elif staMeth == "Var":
+                tIm = my_mssr.tVar(processed_iSRRF)
+            elif staMeth == "SOFI":
+                tIm = my_mssr.TRAC(processed_iSRRF, self.spinBoxS.value())
+            elif staMeth == "CV·σ":
+                tIm = my_mssr.varCoef(processed_iSRRF)
+            output_name = staMeth + " SRRF " + self.stack_name
+            self.viewer.add_image(tIm, name=output_name)
+
+        elif not(exist_flag) and self.CheckBox1.checkState() == 2:
+
+            im = self.viewer.layers.selection.active.data
+            self.selected_im_name = str(self.viewer.layers.selection.active)
+
+            magnification = self.spinBox1.value() #4
+            spatial_radius = self.spinBox2.value()
+            symmetryAxis = self.spinBox3.value()
+            fstart = self.spinBox4.value()
+            fend = self.spinBox5.value()
+
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            self.the_name = "processed "+ self.selected_im_name
+            self.stack_name = self.selected_im_name
+            self.viewer.add_image(processed_iSRRF, name=self.the_name)
+            stack_flag = True
+            srrf_im = my_mssr.tMean(processed_iSRRF)
+            self.viewer.add_image(srrf_im, name="SRRF "+ self.selected_im_name)
+
+            staMeth = self.ComboBoxT.currentText()
+            if staMeth == "TPM":
+                tIm = my_mssr.TPM(processed_iSRRF)
+            elif staMeth == "Var":
+                tIm = my_mssr.tVar(processed_iSRRF)
+            elif staMeth == "SOFI":
+                tIm = my_mssr.TRAC(processed_iSRRF, self.spinBoxS.value())
+            elif staMeth == "CV·σ":
+                tIm = my_mssr.varCoef(processed_iSRRF)
+            self.viewer.add_image(tIm, name=staMeth + " SRRF " + self.selected_im_name)
+
+        else:
+            im = self.viewer.layers.selection.active.data
+            self.selected_im_name = str(self.viewer.layers.selection.active)
+
+            magnification = self.spinBox1.value() #4
+            spatial_radius = self.spinBox2.value()
+            symmetryAxis = self.spinBox3.value()
+            fstart = self.spinBox4.value()
+            fend = self.spinBox5.value()
+
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            self.the_name = "processed " + self.selected_im_name
+            self.stack_name = self.selected_im_name
+            self.viewer.add_image(processed_iSRRF, name=self.the_name)
+            stack_flag = True
+            srrf_im = my_mssr.tMean(processed_iSRRF)
+            self.viewer.add_image(srrf_im, name="SRRF "+self.selected_im_name)
+
+        if self.the_name in self.viewer.layers:
+            exist_flag = True
+        else:
+            self.the_name = " "
+
+        napari.utils.notifications.show_info("Process complete")
+
 
 class SplitChannelsWidget(QWidget):
 

@@ -5,7 +5,7 @@ except ImportError:
     __version__ = "unknown"
 
 from ._reader import napari_get_reader
-from ._gui_creator import mssr_caller, esi_caller, sofi_caller
+from ._gui_creator import mssr_caller, esi_caller, sofi_caller, srrf_caller
 from ._writer import write_multiple, write_single_image
 
 __all__ = (
@@ -15,5 +15,6 @@ __all__ = (
     "mssr_caller",
     "esi_caller",
     "sofi_caller",
+    "srrf_caller",
     "SplitChannelsWidget",
 )

@@ -127,14 +127,17 @@ Review: [Alva et al., 2022. “Fluorescence Fluctuation-Based Super-Resolution M
 
 MSSR article: [Torres-García, E., Pinto-Cámara, R., Linares, A. et al. Extending resolution within a single imaging frame. Nat Commun 13, 7452 (2022).](https://doi.org/10.1038/s41467-022-34693-9)
 
-ESI article: [Idir Yahiatene, Simon Hennig, Marcel Müller, Thomas Huser (2015/2016). "Entropy-based Super-resolution Imaging (ESI): From Disorder to Fine Detail" ACS Photonics.](https://doi.org/10.1021/acsphotonics.5b00307)
+ESI article: [Idir Yahiatene, Simon Hennig, Marcel Müller, Thomas Huser (2015/2016). "Entropy-based Super-resolution Imaging (ESI): From Disorder to Fine Detail" ACS Photonics 8, 2 (2015)](https://doi.org/10.1021/acsphotonics.5b00307)
 
-SOFI article: [Fast, background-free, 3D super-resolution optical fluctuation imaging (SOFI)](https://doi.org/10.1073/pnas.0907866106)
+SOFI article: [T. Dertinger, R. Colyer, G. Iyer, and J. Enderlein. Fast, background-free, 3D super-resolution optical fluctuation imaging (SOFI). PNAS 52, 106 (2009) ](https://doi.org/10.1073/pnas.0907866106)
 
-Implemented methods:
+SRRF article: [Salsman, J.,  and, Dellaire, G., Super-Resolution Radial Fluctuations (SRRF) Microscopy, Methods in Molecular Biology 2440 (2022)](https://link.springer.com/protocol/10.1007/978-1-0716-2051-9_14)
+
+Methods implemented:
 - MSSR
 - ESI
 - SOFI
+- SRRF
 - Split channels
 
 Repositories available:
@@ -142,6 +145,7 @@ Repositories available:
 - [PySOFI](https://github.com/xiyuyi-at-LLNL/pysofi) GitHub repository
 
 ----------------------------------
+
 
 This [napari] plugin was generated with [Cookiecutter] using [@napari]'s [cookiecutter-napari-plugin] template.
 
