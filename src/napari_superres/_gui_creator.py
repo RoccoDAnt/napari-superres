@@ -9,6 +9,9 @@ from qtpy.QtWidgets import QVBoxLayout, QHBoxLayout, QGridLayout, QPushButton,\
                            QWidget, QSpinBox, QLabel, QSpacerItem, QSizePolicy,\
                            QDoubleSpinBox, QComboBox, QCheckBox, QSlider, QFileDialog,\
                            QMessageBox, QMainWindow, QApplication
+
+from matplotlib.backends.backend_qt5agg import FigureCanvas
+from matplotlib.figure import Figure
 from skimage import io
 import datetime
 import pathlib
@@ -19,6 +22,8 @@ if TYPE_CHECKING:
 
 import napari
 import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.backends.backend_qt5agg import FigureCanvas
 from vispy.color import Colormap
 import os
 import sys
@@ -30,12 +35,14 @@ from .my_popW import Ui_MainWindow
 from .core_decor import *
 from .core_sofi import sofi_class
 from .core_srrf import srrf_class
+from .core_musical import musical_class
 
 #Import FF-SRM methods cores
 my_mssr = mssr_class()
 my_esi = esi_class()
 my_sofi = sofi_class()
 my_srrf = srrf_class()
+my_musical = musical_class()
 
 
 class mssr_caller(QWidget):
@@ -672,8 +679,6 @@ class srrf_caller(QWidget):
     def __init__(self, napari_viewer):
         super().__init__()
         self.viewer = napari_viewer
-        #self.viewer.layers.events.inserting.connect(self.pbta)
-        #self.viewer.layers.selection.events.changed.connect(self.pbta)
         self.viewer.layers.selection.events.active.connect(self.pbta)
         self.the_name = " "
     #widgets instantiation to be added to the viewer layout
@@ -741,7 +746,6 @@ class srrf_caller(QWidget):
         myFont.setBold(True)
         btnRun.setFont(myFont)
         btnRun.clicked.connect(self._run)
-
 
         #Seting up widget layout
         self.setLayout(QVBoxLayout())
@@ -867,6 +871,165 @@ class srrf_caller(QWidget):
         else:
             self.the_name = " "
 
+        napari.utils.notifications.show_info("Process complete")
+
+
+class musical_caller(QWidget):
+
+    def __init__(self, napari_viewer):
+        super().__init__()
+        self.viewer = napari_viewer
+        self.build()
+
+    def build(self):
+        #instanciating the widgets items
+        label1 = QLabel()
+        label1.setText("Emission λ [nm]")
+        self.spinBox1 = QSpinBox()
+        self.spinBox1.setMinimum(150)
+        self.spinBox1.setMaximum(999)
+        self.spinBox1.setValue(510)
+
+        label2 = QLabel()
+        label2.setText("Numerical Aperture")
+        self.DspinBox1 = QDoubleSpinBox()
+        self.DspinBox1.setMinimum(0)
+        self.DspinBox1.setMaximum(10)
+        self.DspinBox1.setValue(1.4)
+
+        label3 = QLabel()
+        label3.setText("Magnification")
+        self.spinBox2 = QSpinBox()
+        self.spinBox2.setMinimum(1)
+        self.spinBox2.setMaximum(999)
+        self.spinBox2.setValue(100)
+
+        label4 = QLabel()
+        label4.setText("Pixel size [nm]")
+        self.spinBox3 = QSpinBox()
+        self.spinBox3.setMinimum(1)
+        self.spinBox3.setMaximum(9999)
+        self.spinBox3.setValue(8000)
+
+        self.plot_button = QPushButton("Plot singular values")
+        self.plot_button.clicked.connect(self.set_plot)
+
+        label5 = QLabel()
+        label5.setText("Threshold")
+        self.DspinBox2 = QDoubleSpinBox()
+        self.DspinBox2.setMinimum(-10)
+        self.DspinBox2.setMaximum(10)
+        self.DspinBox2.setValue(-0.5)
+
+        label6 = QLabel()
+        label6.setText("Alpha")
+        self.spinBox4 = QSpinBox()
+        self.spinBox4.setMinimum(0)
+        self.spinBox4.setMaximum(99)
+        self.spinBox4.setValue(4)
+
+        label7 = QLabel()
+        label7.setText("Subpixels per pixel")
+        self.spinBox5 = QSpinBox()
+        self.spinBox5.setMinimum(1)
+        self.spinBox5.setMaximum(99)
+        self.spinBox5.setValue(20)
+
+        btnRun = QPushButton("Run")
+        myFont=QtGui.QFont()
+        myFont.setBold(True)
+        btnRun.setFont(myFont)
+        btnRun.clicked.connect(self.image_processing)
+
+        #Seting up widget layout
+        self.setLayout(QVBoxLayout())
+        self.layout().addWidget(label1)
+        self.layout().addWidget(self.spinBox1)
+        #self.layout().addSpacing(30)
+        self.layout().addWidget(label2)
+        self.layout().addWidget(self.DspinBox1)
+        #self.layout().addSpacing(30)
+        self.layout().addWidget(label3)
+        self.layout().addWidget(self.spinBox2)
+        #self.layout().addSpacing(30)
+        self.layout().addWidget(label4)
+        self.layout().addWidget(self.spinBox3)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(self.plot_button)
+        self.layout().addSpacing(30)
+        self.layout().addWidget(label5)
+        self.layout().addWidget(self.DspinBox2)
+        #self.layout().addSpacing(30)
+        self.layout().addWidget(label6)
+        self.layout().addWidget(self.spinBox4)
+        #self.layout().addSpacing(30)
+        self.layout().addWidget(label7)
+        self.layout().addWidget(self.spinBox5)
+        self.layout().addSpacing(40)
+        self.layout().addWidget(btnRun)
+
+    def set_plot(self):
+        imageStack = self.viewer.layers.selection.active.data
+        if imageStack.ndim < 3 or imageStack.shape[0] < 3:
+            raise TypeError("The current layer is not an STACK!")
+        imageStack = imageStack / np.max(imageStack)
+        numberOfImages, y_in, x_in = imageStack.shape
+
+        lam = self.spinBox1.value() #510
+        NA =  self.DspinBox1.value() #1.4
+        M = self.spinBox2.value()#100
+        PixelSize = self.spinBox3.value() #8000
+        TestPointsPerPixel = self.spinBox5.value() #20
+
+        G_PSF, x_foc, y_foc, N, subpixel_size = my_musical.compute_PSF(lam, NA, M, PixelSize, TestPointsPerPixel)
+
+        x_val = list(range(1, x_in + 1))
+        y_val = list(range(1, y_in + 1))
+
+        Threshold = self.DspinBox2.value() #-0.5
+        N_w = np.sqrt(N)
+        Alpha = self.spinBox4.value() #4
+
+        S_matrix = my_musical.function_SVD_scan_parallel(imageStack, x_val, y_val, N_w, G_PSF, x_foc, y_foc, TestPointsPerPixel)
+
+        with plt.style.context('dark_background'):
+            my_plot_widget = FigureCanvas(Figure(constrained_layout=True))
+            fig = my_plot_widget.figure
+            ax1 = fig.add_subplot()
+            ax1.plot(np.log10(S_matrix))
+            ax1.set_xlabel('Number')
+            ax1.set_ylabel('log10 value')
+
+        plot_dock = self.viewer.window.add_dock_widget(my_plot_widget, name='Plot', area = 'right')
+
+        napari.utils.notifications.show_info("Process complete")
+
+    def image_processing(self):
+        imageStack = self.viewer.layers.selection.active.data
+        if imageStack.ndim < 3 or imageStack.shape[0] < 3:
+            raise TypeError("The current layer is not an STACK!")
+
+        self.selected_im_name = str(self.viewer.layers.selection.active)
+        imageStack = imageStack / np.max(imageStack)
+        numberOfImages, y_in, x_in = imageStack.shape
+
+        lam = self.spinBox1.value() #510
+        NA =  self.DspinBox1.value() #1.4
+        M = self.spinBox2.value()#100
+        PixelSize = self.spinBox3.value() #8000
+        TestPointsPerPixel = self.spinBox5.value() #20
+        G_PSF, x_foc, y_foc, N, subpixel_size = my_musical.compute_PSF(lam, NA, M, PixelSize, TestPointsPerPixel)
+
+        x_val = list(range(1, x_in + 1))
+        y_val = list(range(1, y_in + 1))
+
+        Threshold = self.DspinBox2.value() #-0.5
+        N_w = np.sqrt(N)
+        Alpha = self.spinBox4.value() #4
+
+        musical_im, _ = my_musical.function_MUSIC_scan_parallel(imageStack, x_val, y_val, Threshold, N_w, G_PSF, x_foc, y_foc, TestPointsPerPixel, Alpha)
+
+        self.viewer.add_image(musical_im, name="MUSICAL "+self.selected_im_name)
         napari.utils.notifications.show_info("Process complete")
 
 

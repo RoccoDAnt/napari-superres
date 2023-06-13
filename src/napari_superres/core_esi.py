@@ -3,6 +3,7 @@
 import numpy as np
 from skimage import io
 from scipy.ndimage import gaussian_filter
+from napari.utils import progress
 
 
 class esi_class:
@@ -29,7 +30,7 @@ class esi_class:
         # image to show the summed-up result
         summedImg = np.zeros((2*stck.shape[1],2*stck.shape[2]))
         # loop over subimages
-        for k in range(0,nrResImage):
+        for k in progress(range(0,nrResImage)):
 
             #generate and normalize the TraceStack
             trSt = self.getSubvolume(stck, k*imgPerResult, (k+1)*imgPerResult)

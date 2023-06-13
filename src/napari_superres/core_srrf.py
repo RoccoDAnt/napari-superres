@@ -164,13 +164,9 @@ class srrf_class:
     def srrf(self, img_layer, magnification, spatialRadius, symmetryAxis, fstart, fend) :
         img=np.array(img_layer.data)
         n, w, h, = img.shape
-        #imag = np.zeros((fend - fstart, w*magnification, h*magnification))
         irm = np.zeros((fend - fstart, w*magnification, h*magnification))
-        for i, frame in enumerate(list(range(fstart, fend)) ):
+        for i, frame in enumerate(progress(list(range(fstart, fend)))):
             print(frame)
             irm[i] = self.singleFrameRadialityMap(img, magnification, spatialRadius, symmetryAxis, frame)
-        # imagm = imag.mean(axis = 0)
-        # srrf = irm.mean(axis = 0)
-        #imagm_res = np.mean(imag, axis = 0)
-        #srrf = np.mean(irm, axis = 0)
+
         return irm

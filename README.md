@@ -133,16 +133,20 @@ SOFI article: [T. Dertinger, R. Colyer, G. Iyer, and J. Enderlein. Fast, backgro
 
 SRRF article: [Salsman, J.,  and, Dellaire, G., Super-Resolution Radial Fluctuations (SRRF) Microscopy, Methods in Molecular Biology 2440 (2022)](https://link.springer.com/protocol/10.1007/978-1-0716-2051-9_14)
 
+MUSICAL article: [K. Agarwal and R. Machan, Multiple Signal Classification Algorithm for super-resolution fluorescence microscopy, Nature Communications, vol. 7, article id. 13752, (2016)](https://www.nature.com/articles/ncomms13752)
+
 Methods implemented:
 - MSSR
 - ESI
 - SOFI
 - SRRF
+- MUSICAL
 - Split channels
 
 Repositories available:
 - [ESI](https://github.com/biophotonics-bielefeld/ESI) GitHub repository
 - [PySOFI](https://github.com/xiyuyi-at-LLNL/pysofi) GitHub repository
+- [MUSICAL](https://sites.google.com/site/uthkrishth/musical) Google site
 
 ----------------------------------
 
