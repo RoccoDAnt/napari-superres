@@ -21,10 +21,10 @@ contributions:
       python_name: napari_superres._gui_creator:sofi_caller
       title: Make SOFI plugin GUI
     - id: napari-superres.make_srrf_caller
-      python_name: napari-superres._gui_creator:srrf_caller
+      python_name: napari_superres._gui_creator:srrf_caller
       title: Make SRRF plugin GUI
     - id: napari-superres.make_musical_caller
-      python_name: napari-superres._gui_creator:musical_caller
+      python_name: napari_superres._gui_creator:musical_caller
       title: Make MUSICAL plugin GUI
     - id: napari-superres.make_SplitChannel
       python_name: napari_superres._gui_creator:SplitChannelsWidget
