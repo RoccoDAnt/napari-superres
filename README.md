@@ -200,7 +200,7 @@ Examples of use:
 | **Original**  | **SOFI** |
 | --- | --- |
 | <img src="docs/noSOFI.png" width=50% height=100%> | <img src="docs/SOFI.png" width=50% height=100%>|
-| Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
+| Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
 | --- | --- |
