@@ -189,8 +189,8 @@ Examples of use:
 
 | **Original**  | **MSSR** |
 | --- | --- |
-| <img src="docs/MSSR_original_donuts.png" width=100% height=100%>| <img src="docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png" width=100% height=100%>|
-| Parameters: | amplification: 2, PSF_p: 1, order: 1 |
+| <img src="docs/noMSSR.png" width=100% height=100%>| <img src="docs/MSSR.png" width=100% height=100%>|
+| Parameters: | amplification: 2, Order: 0 PSF FWHM: 6, Interpolation: Bicubic, Statistical integration: CV*sigma |
 
 | **Original**  | **ESI** |
 | --- | --- |
