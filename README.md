@@ -199,7 +199,7 @@ Examples of use:
 
 | **Original**  | **SOFI** |
 | --- | --- |
-| <img src="docs/SRRF_Original_Microtubules.png" width=50% height=50%> | <img src="docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png" width=50% height=50%>|
+| <img src="docs/noSOFI.png" width=50% height=100%> | <img src="docs/SOFI.png" width=50% height=100%>|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
 | **Original**  | **SRRF** |
