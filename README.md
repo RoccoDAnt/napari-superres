@@ -194,7 +194,7 @@ Examples of use:
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| ![](docs/SRRF_Original_Microtubules.png){width:150px; height:100px;} | ![](docs SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png)|
+| ![](docs/SRRF_Original_Microtubules.png){<!--width:150px; height:100px;-->} | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png)|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
 | **Original**  | **ESI** |
