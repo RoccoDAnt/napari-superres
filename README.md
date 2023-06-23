@@ -1,4 +1,4 @@
-# napari-superres
+<!-- # napari-superres
 
 [![License](https://img.shields.io/pypi/l/napari-superres.svg?color=green)](https://github.com/RoccoDAnt/napari-superres/raw/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/napari-superres.svg?color=green)](https://pypi.org/project/napari-superres)
@@ -106,7 +106,7 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [napari]: https://github.com/napari/napari
 [tox]: https://tox.readthedocs.io/en/latest/
 [pip]: https://pypi.org/project/pip/
-[PyPI]: https://pypi.org/
+[PyPI]: https://pypi.org/ -->
 
 
 # lnma-superres
@@ -134,6 +134,8 @@ SOFI article: [T. Dertinger, R. Colyer, G. Iyer, and J. Enderlein. Fast, backgro
 SRRF article: [Salsman, J.,  and, Dellaire, G., Super-Resolution Radial Fluctuations (SRRF) Microscopy, Methods in Molecular Biology 2440 (2022)](https://link.springer.com/protocol/10.1007/978-1-0716-2051-9_14)
 
 MUSICAL article: [K. Agarwal and R. Machan, Multiple Signal Classification Algorithm for super-resolution fluorescence microscopy, Nature Communications, vol. 7, article id. 13752, (2016)](https://www.nature.com/articles/ncomms13752)
+
+
 
 Methods implemented:
 - MSSR
@@ -181,6 +183,26 @@ To install latest development version :
     pip install git+https://github.com/RoccoDAnt/napari-superres.git@Dr2-JMM
 
 You might need to install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) first.
+
+----------------------------------
+Examples of use:
+
+| **Original**  | **MSSR** |
+| --- | --- |
+| ![](docs/MSSR_original_donuts.png) | ![](docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png) |
+| Parameters: | amplification: 2, PSF_p: 1, order: 1 |
+
+| **Original**  | **SRRF** |
+| --- | --- |
+| ![](docs/SRRF_Original_Microtubules.png) | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png)|
+| Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
+
+| **Original**  | **ESI** |
+| --- | --- |
+| ![](docs/ESI_Original_donuts.png) | ![](docs/ESI_Processed_nrResImage_1_nrBins_2_esi_order_1_donuts.png) |
+| Parameters: | nrResImage: 1, nrBins: 2, esi_order: 1 |
+
+----------------------------------
 
 ## Contributing
 
