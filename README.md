@@ -187,7 +187,7 @@ You might need to install [git](https://git-scm.com/book/en/v2/Getting-Started-I
 ----------------------------------
 Examples of use:
 
-| **Original**  | **MSSR** |
+| **Original**  | **tMSSR** |
 | --- | --- |
 | <img src="docs/noMSSR.png" width=100% height=100%>| <img src="docs/MSSR.png" width=100% height=100%>|
 | Parameters: | amplification: 2, Order: 0 PSF FWHM: 6, Interpolation: Bicubic, Statistical integration: CV*sigma |
@@ -199,7 +199,7 @@ Examples of use:
 
 | **Original**  | **SOFI** |
 | --- | --- |
-| <img src="docs/noSOFI.png" width=50% height=100%> | <img src="docs/SOFI.png" width=50% height=100%>|
+| <img src="docs/noSOFI.png" width=100% height=100%> | <img src="docs/SOFI.png" width=100% height=100%>|
 | Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
