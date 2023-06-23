@@ -189,17 +189,17 @@ Examples of use:
 
 | **Original**  | **MSSR** |
 | --- | --- |
-| ![](docs/MSSR_original_donuts.png | width=100) | ![](docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png | width=100) |
+| ![](docs/MSSR_original_donuts.png  width=100) | ![](docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png  width=100) |
 | Parameters: | amplification: 2, PSF_p: 1, order: 1 |
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| ![](docs/SRRF_Original_Microtubules.png | width=100) | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png | width=100)|
+| ![](docs/SRRF_Original_Microtubules.png  width=100) | ![](docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png  width=100)|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
 | **Original**  | **ESI** |
 | --- | --- |
-| ![](docs/ESI_Original_donuts.png | width=100) | ![](docs/ESI_Processed_nrResImage_1_nrBins_2_esi_order_1_donuts.png | width=100) |
+| ![](docs/ESI_Original_donuts.png  width=100) | ![](docs/ESI_Processed_nrResImage_1_nrBins_2_esi_order_1_donuts.png width=100) |
 | Parameters: | nrResImage: 1, nrBins: 2, esi_order: 1 |
 
 ----------------------------------
