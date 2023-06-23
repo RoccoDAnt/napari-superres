@@ -209,7 +209,7 @@ Examples of use:
 
 | **Original**  | **MUSICAL** |
 | --- | --- |
-| <img src="musical_mean.png" width=50% height=50%> | <img src="docs/docsMUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
+| <img src="docs/musical_mean.png" width=50% height=50%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 ----------------------------------
 
