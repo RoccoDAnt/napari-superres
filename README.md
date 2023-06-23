@@ -204,12 +204,12 @@ Examples of use:
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| <img src="docs/musical_mean.png" width=50% height=50%> | <img src="docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png" width=50% height=50%>|
+| <img src="docs/SRRF_Original_Microtubules.png" width=50% height=50%> | <img src="docs/SRRF_processed_mag_2_rad_3_symAxis_3_fstart_0_fend_3_Microtubules.png" width=50% height=50%>|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 
 | **Original**  | **MUSICAL** |
 | --- | --- |
-| <img src="docsMUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
+| <img src="musical_mean.png" width=50% height=50%> | <img src="docs/docsMUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
 | Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
 ----------------------------------
 
