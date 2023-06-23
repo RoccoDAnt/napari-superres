@@ -59,7 +59,7 @@ https://github.com/napari/cookiecutter-napari-plugin#getting-started
 
 and review the napari docs for plugin developers:
 https://napari.org/plugins/stable/index.html
--->
+
 
 ## Installation
 Create a Conda environment and install napari:
@@ -109,7 +109,7 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [PyPI]: https://pypi.org/ -->
 
 
-# lnma-superres
+# napari-superres
 
 [![License BSD-3](https://img.shields.io/pypi/l/lnma-superres.svg?color=green)](https://github.com/Dr2-JMM/lnma-superres/raw/main/LICENSE)
 [![PyPI](https://img.shields.io/pypi/v/lnma-superres.svg?color=green)](https://pypi.org/project/lnma-superres)
