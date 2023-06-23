@@ -210,7 +210,7 @@ Examples of use:
 | **Original**  | **MUSICAL** |
 | --- | --- |
 | <img src="docs/musical_mean.png" width=50% height=50%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
-| Parameters: | magnification: 2, spatial radius: 1, symmetry Axis: 1, f_start: 0, f_end: 3|
+| Parameters: | Emission [nm]: 510 NA: 1.4, Mag: 100, Pizel size: 8000, Threshold: -0.5, Alpha: 4, Subpixels per pixel: 20|
 ----------------------------------
 
 
