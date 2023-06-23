@@ -189,7 +189,7 @@ Examples of use:
 
 | **Original**  | **MSSR** |
 | --- | --- |
-| <img src="docs/MSSR_original_donuts.png" width=50% height=100%>| <img src="docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png" width=100% height=100%>|
+| <img src="docs/MSSR_original_donuts.png" width=100% height=100%>| <img src="docs/MSSR_Processed_amp_2_PSFp_1_order_1_raw7_100_donuts.png" width=100% height=100%>|
 | Parameters: | amplification: 2, PSF_p: 1, order: 1 |
 
 | **Original**  | **SRRF** |
