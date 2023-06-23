@@ -209,7 +209,7 @@ Examples of use:
 
 | **Original**  | **MUSICAL** |
 | --- | --- |
-| <img src="docs/musical_mean.png" width=50% height=50%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=50% height=50%>|
+| <img src="docs/musical_mean.png" width=70% height=70%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=70% height=70%>|
 | Parameters: | Emission [nm]: 510 NA: 1.4, Mag: 100, Pizel size: 8000, Threshold: -0.5, Alpha: 4, Subpixels per pixel: 20|
 ----------------------------------
 
