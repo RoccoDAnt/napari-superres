@@ -1,0 +1,11 @@
+site_name: napari-superres
+site_description: Super-resolution napari plugins collection
+site_author: Rocco D'Antuono, Adán Guerrero, Raúl Pinto Cámara, Paúl Hernández Herrera, Esley Torres Garcia, Haydee Hernández, Julián Mejía
+
+theme: readthedocs
+
+
+repo_url: https://github.com/RoccoDAnt/napari-superres
+
+pages:
+- Home: index.md
