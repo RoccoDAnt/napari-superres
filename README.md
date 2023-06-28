@@ -194,8 +194,8 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <img src="docs/ESI_Original_donuts.png" width=50% height=50%> | <img src="docs/ESI_Processed_nrResImage_1_nrBins_2_esi_order_1_donuts.png" width=50% height=50%> |
-| Parameters: | nrResImage: 1, nrBins: 2, esi_order: 1 |
+| <img src="docs/noESI.png" width=50% height=50%> | <img src="docs/ESI.png" width=50% height=50%> |
+| Parameters: | imaged in poutput: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
 | --- | --- |
