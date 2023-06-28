@@ -74,7 +74,7 @@ Work in progress - Tested on napari 0.4.13:
     pip install imageio_ffmpeg
     pip install matplotlib
     conda install git
-    pip install git+https://github.com/RoccoDAnt/napari-superres.git
+    pip install git+https://github.com/RoccoDAnt/napari-superres.git@b6a19dfa3c52617efca1fed2258231a0279a29b9
 
 ## Contributing
 
