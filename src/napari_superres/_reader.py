@@ -1,21 +1,15 @@
 """
 This module is an example of a barebones numpy reader plugin for napari.
 
-It implements the ``napari_get_reader`` hook specification, (to create
-a reader plugin) but your plugin may choose to implement any of the hook
-specifications offered by napari.
-see: https://napari.org/docs/dev/plugins/hook_specifications.html
-
-Replace code below accordingly.  For complete documentation see:
-https://napari.org/docs/dev/plugins/for_plugin_developers.html
+It implements the Reader specification, but your plugin may choose to
+implement multiple readers or even other plugin contributions. see:
+https://napari.org/stable/plugins/guides.html?#readers
 """
 import numpy as np
-from napari_plugin_engine import napari_hook_implementation
 
 
-@napari_hook_implementation
 def napari_get_reader(path):
-    """A basic implementation of the napari_get_reader hook specification.
+    """A basic implementation of a Reader contribution.
 
     Parameters
     ----------
@@ -60,9 +54,9 @@ def reader_function(path):
         A list of LayerData tuples where each tuple in the list contains
         (data, metadata, layer_type), where data is a numpy array, metadata is
         a dict of keyword arguments for the corresponding viewer.add_* method
-        in napari, and layer_type is a lower-case string naming the type of layer.
-        Both "meta", and "layer_type" are optional. napari will default to
-        layer_type=="image" if not provided
+        in napari, and layer_type is a lower-case string naming the type of
+        layer. Both "meta", and "layer_type" are optional. napari will
+        default to layer_type=="image" if not provided
     """
     # handle both a string and a list of strings
     paths = [path] if isinstance(path, str) else path
