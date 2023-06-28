@@ -194,12 +194,12 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <img src="docs/synt.png" width=100% height=100%> | <img src="docs/ESI.png" width=150% height=150%> |
+| <img src="docs/synt.png" width=80% height=80%> | <img src="docs/ESI.png" width=100% height=100%> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
 | --- | --- |
-| <img src="docs/noSOFI.png" width=200% height=200%> | <img src="docs/SOFI.png" width=200% height=200%>|
+| <img src="docs/noSOFI.png" width=100% height=100%> | <img src="docs/SOFI.png" width=100% height=100%>|
 | Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
