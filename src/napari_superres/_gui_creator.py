@@ -705,7 +705,7 @@ class srrf_caller(QWidget):
         self.spinBox2.setValue(5)
 
         label3 = QLabel()
-        label3.setText("Symetry Axis")
+        label3.setText("Symmetry Axis")
         self.spinBox3 = QSpinBox()
         self.spinBox3.setMinimum(1)
         self.spinBox3.setMaximum(10)
