@@ -194,7 +194,7 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <img src="docs/noESI.png" width=100% height=100%> | <img src="docs/ESI.png" width=100% height=100%> |
+| <img src="docs/synt.png" width=100% height=100%> | <img src="docs/ESI.png" width=100% height=100%> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
