@@ -1,6 +1,6 @@
 import numpy as np
 
-from lnma_superres import napari_get_reader
+from napari_superres import napari_get_reader
 
 
 # tmp_path is a pytest fixture

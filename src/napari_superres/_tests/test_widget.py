@@ -1,6 +1,6 @@
 import numpy as np
 
-from lnma_superres import ExampleQWidget, example_magic_widget
+from napari_superres import ExampleQWidget, example_magic_widget
 
 
 # make_napari_viewer is a pytest fixture that returns a napari viewer object
