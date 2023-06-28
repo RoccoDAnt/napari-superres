@@ -204,7 +204,7 @@ Examples of use:
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| <img src="docs/synt.png" width=100% height=100%> | <img src="docs/SRRR.png" width=100% height=100%>|
+| <img src="docs/synt.png" width=100% height=100%> | <img src="docs/SRRF.png" width=100% height=100%>|
 | Parameters: | Amplification: 2, Spatial radius: 5, Symmetry Axis: 6, Start frame: 0, End frame: 48|
 
 | **Original**  | **MUSICAL** |
