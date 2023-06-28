@@ -199,7 +199,7 @@ Examples of use:
 
 | **Original**  | **SOFI** |
 | --- | --- |
-| <img src="docs/noSOFI.png" width=150% height=150%> | <img src="docs/SOFI.png" width=150% height=150%>|
+| <img src="docs/noSOFI.png" width=200% height=200%> | <img src="docs/SOFI.png" width=200% height=200%>|
 | Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
