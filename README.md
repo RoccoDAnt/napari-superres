@@ -180,7 +180,7 @@ For details check: https://napari.org/stable/
 
 To install latest development version :
 
-    pip install git+https://github.com/RoccoDAnt/napari-superres.git@Dr2-JMM
+    pip install git+https://github.com/RoccoDAnt/napari-superres.git
 
 You might need to install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) first.
 
