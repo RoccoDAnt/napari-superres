@@ -194,22 +194,22 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <img src="docs/synt.png" width=40% height=40%> | <img src="docs/ESI.png" width=50% height=50%> |
+| <p align="center"> <img src="docs/synt.png" width=40% height=40%> </p> | <p align="center"> <img src="docs/ESI.png" width=50% height=50%> </p> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
 | --- | --- |
-| <img src="docs/noSOFI.png" width=100% height=100%> | <img src="docs/SOFI.png" width=100% height=100%>|
+|<p align="center"> <img src="docs/noSOFI.png" width=100% height=100%> </p> | <p align="center"> <img src="docs/SOFI.png" width=100% height=100%> </p> |
 | Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| <img src="docs/synt.png" width=50% height=50%> | <img src="docs/SRRF.png" width=50% height=50%>|
+|<p align="center"> <img src="docs/synt.png" width=50% height=50%> </p> | <p align="center"> <img src="docs/SRRF.png" width=50% height=50%> </p>|
 | Parameters: | Amplification: 2, Spatial radius: 5, Symmetry Axis: 6, Start frame: 0, End frame: 48|
 
 | **Original**  | **MUSICAL** |
 | --- | --- |
-| <img src="docs/musical_mean.png" width=70% height=100%> | <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=70% height=100%>|
+| <p align="center"> <img src="docs/musical_mean.png" width=70% height=100%> </p> | <p align="center"> <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=70% height=100%> </p>|
 | Parameters: | Emission [nm]: 510 NA: 1.4, Mag: 100, Pizel size: 8000, Threshold: -0.5, Alpha: 4, Subpixels per pixel: 20|
 ----------------------------------
 
