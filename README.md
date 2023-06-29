@@ -37,7 +37,7 @@ Methods implemented:
 
 | **Super Resolution Radial Fluctuations (SRRF)**  | **Mean-Shift Super Resolution (MSSR)** | **Entropy-based Super-resolution Imaging (ESI)** |
 | --- | --- | --- |
-| ![](https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/Fig_7_SRRF_Alva_2022.png) | ![](https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/Fig_2a_MSSR_Garcia_2021.png) | ![](https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/Fig_6_ESI_Alva_2022.png) |
+| ![](https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/Fig_7_SRRF_Alva_2022.png) | ![](https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/Fig_2a_MSSR_Garcia_2021.png) | ![](https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/Fig_6_ESI_Alva_2022.png) |
 from Fig. 7 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135) | from Fig. 2 of [García et al., 2021](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)|  from Fig. 6 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135)|
 
 
@@ -85,27 +85,27 @@ Examples of use:
 
 | **Original**  | **tMSSR** |
 | --- | --- |
-| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/single-frame-good-exposure.png" width=100% height=100%> </p>| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/tmssr-mean-mag2.png" width=48% height=48%> </p>|
+| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/single-frame-good-exposure.png" width=100% height=100%> </p>| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/tmssr-mean-mag2.png" width=48% height=48%> </p>|
 | Parameters: | Amplification: 2, Order: 0, PSF FWHM: 6, <br> Interpolation: Bicubic, Statistical integration: CV*sigma |
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/synt.png" width=40% height=40%> </p> | <p align="center"> <https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/img src="docs/ESI.png" width=50% height=50%> </p> |
+| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/synt.png" width=40% height=40%> </p> | <p align="center"> <https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/img src="docs/ESI.png" width=50% height=50%> </p> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
 | --- | --- |
-|<p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/noSOFI.png" width=100% height=100%> </p> | <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/SOFI.png" width=100% height=100%> </p> |
+|<p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/noSOFI.png" width=100% height=100%> </p> | <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/SOFI.png" width=100% height=100%> </p> |
 | Parameters: | Amplification factor: 2, Moment Order: 4, lambda parameter: 1.5, No. Iterations: 20, Window size: 100|
 
 | **Original**  | **SRRF** |
 | --- | --- |
-|<p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/synt.png" width=50% height=50%> </p> | <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/SRRF.png" width=50% height=50%> </p>|
+|<p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/synt.png" width=50% height=50%> </p> | <p align="center"> <img src="docs/SRRF.png" width=50% height=50%> </p>|
 | Parameters: | Amplification: 2, Spatial radius: 5, Symmetry Axis: 6, Start frame: 0, End frame: 48|
 
 | **Original**  | **MUSICAL** |
 | --- | --- |
-| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/musical_mean.png" width=70% height=100%> </p> | <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-zelda/main/docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=70% height=100%> </p>|
+| <p align="center"> <img src="docs/musical_mean.png" width=70% height=100%> </p> | <p align="center"> <img src="docs/MUSICAL-CardioMyoblast_Mitochondria.png" width=70% height=100%> </p>|
 | Parameters: | Emission [nm]: 510 NA: 1.4, Mag: 100, Pizel size: 8000, Threshold: -0.5, Alpha: 4, Subpixels per pixel: 20|
 ----------------------------------
 
