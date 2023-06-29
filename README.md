@@ -145,6 +145,13 @@ Methods implemented:
 - MUSICAL
 - Split channels
 
+
+| **Super Resolution Radial Fluctuations (SRRF)**  | **Mean-Shift Super Resolution (MSSR)** | **Entropy-based Super-resolution Imaging (ESI)** |
+| --- | --- | --- |
+| ![](docs/Fig_7_SRRF_Alva_2022.png) | ![](docs/Fig_2a_MSSR_Garcia_2021.png) | ![](docs/Fig_6_ESI_Alva_2022.png) |
+from Fig. 7 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135) | from Fig. 2 of [García et al., 2021](https://www.biorxiv.org/content/10.1101/2021.10.17.464398v2.full)|  from Fig. 6 of [Alva et al., 2022](https://onlinelibrary.wiley.com/doi/10.1111/jmi.13135)|
+
+
 Repositories available:
 - [ESI](https://github.com/biophotonics-bielefeld/ESI) GitHub repository
 - [PySOFI](https://github.com/xiyuyi-at-LLNL/pysofi) GitHub repository
