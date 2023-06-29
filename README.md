@@ -90,7 +90,7 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/synt.png" width=40% height=40%> </p> | <p align="center"> <https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/img src="docs/ESI.png" width=50% height=50%> </p> |
+| <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/synt.png" width=40% height=40%> </p> | <p align="center"> <img src="https://raw.githubusercontent.com/RoccoDAnt/napari-superres/main/docs/ESI.png" width=50% height=50%> </p> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
