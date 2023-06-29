@@ -119,7 +119,7 @@ If you encounter any problems, please [file an issue] along with a detailed desc
 [![napari hub](https://img.shields.io/endpoint?url=https://api.napari-hub.org/shields/lnma-superres)](https://napari-hub.org/plugins/lnma-superres)
 
 
-A plugin for super-resolution microscopy FF-SRM methods.
+A collection of super-resolution microscopy FF-SRM methods.
 
 Open-source implementation of methods for Fluorescence Fluctuation based Super Resolution Microscopy (FF-SRM):
 
