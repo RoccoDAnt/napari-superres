@@ -222,7 +222,7 @@ class mssr_caller(QWidget):
         first = self.my_files[0].split("/")
         first.pop()
         my_dir = "/".join(first)
-        self.results_dir = my_dir+"/MSSR_resuslts"
+        self.results_dir = my_dir+"/MSSR_results"
 
 
     def _run(self):
