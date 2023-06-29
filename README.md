@@ -190,7 +190,7 @@ Examples of use:
 | **Original**  | **tMSSR** |
 | --- | --- |
 | <p align="center"> <img src="docs/single-frame-good-exposure.png" width=100% height=100%> </p>| <p align="center"> <img src="docs/tmssr-mean-mag2.png" width=30% height=30%> </p>|
-| Parameters: | Amplification: 2, Order: 0, PSF FWHM: 6, Interpolation: Bicubic, Statistical integration: CV*sigma |
+| Parameters: | Amplification: 2, Order: 0, PSF FWHM: 6, <br> Interpolation: Bicubic, Statistical integration: CV*sigma |
 
 | **Original**  | **ESI** |
 | --- | --- |
