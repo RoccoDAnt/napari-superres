@@ -194,7 +194,7 @@ Examples of use:
 
 | **Original**  | **ESI** |
 | --- | --- |
-| <img src="docs/synt.png" width=80% height=80%> | <img src="docs/ESI.png" width=100% height=100%> |
+| <img src="docs/synt.png" width=40% height=40%> | <img src="docs/ESI.png" width=50% height=50%> |
 | Parameters: | image in output: 2, bins: 2, Order: 2 |
 
 | **Original**  | **SOFI** |
@@ -204,7 +204,7 @@ Examples of use:
 
 | **Original**  | **SRRF** |
 | --- | --- |
-| <img src="docs/synt.png" width=100% height=100%> | <img src="docs/SRRF.png" width=100% height=100%>|
+| <img src="docs/synt.png" width=50% height=50%> | <img src="docs/SRRF.png" width=50% height=50%>|
 | Parameters: | Amplification: 2, Spatial radius: 5, Symmetry Axis: 6, Start frame: 0, End frame: 48|
 
 | **Original**  | **MUSICAL** |
