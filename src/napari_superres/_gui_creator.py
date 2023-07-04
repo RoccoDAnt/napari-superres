@@ -266,8 +266,8 @@ class mssr_caller(QWidget):
                 first = self.results_dir.split("/")
                 first.pop()
                 my_dir = "/".join(first)
-                if  first[-1] == "MSSR_resuslts":
-                    tempAn_dir = my_dir + "/tMSSR_resuslts"
+                if  first[-1] == "MSSR_results":
+                    tempAn_dir = my_dir + "/tMSSR_results"
                     if os.path.exists(tempAn_dir) == False:
                         os.mkdir(tempAn_dir)
 
@@ -293,7 +293,7 @@ class mssr_caller(QWidget):
                             processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                             io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
                         elif len(img.shape) == 3:
-                            tempAn_dir = self.results_dir + "/tMSSR_resuslts"
+                            tempAn_dir = self.results_dir + "/tMSSR_results"
                             if os.path.exists(tempAn_dir) == False:
                                 os.mkdir(tempAn_dir)
                             processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
@@ -705,7 +705,7 @@ class srrf_caller(QWidget):
         self.spinBox2.setValue(5)
 
         label3 = QLabel()
-        label3.setText("Symmetry Axis")
+        label3.setText("Symetry Axis")
         self.spinBox3 = QSpinBox()
         self.spinBox3.setMinimum(1)
         self.spinBox3.setMaximum(10)
