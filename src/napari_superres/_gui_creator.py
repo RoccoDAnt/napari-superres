@@ -117,6 +117,15 @@ class mssr_caller(QWidget):
         btnB = QPushButton("Batch Analysis")
         btnB.clicked.connect(self.batch)
 
+        self.label_chanels = QLabel()
+        self.label_chanels.setText("Select channel")
+        self.spinBox5 = QSpinBox()
+        self.spinBox5.setMinimum(0)
+        self.spinBox5.setMaximum(2)
+        self.spinBox5.setValue(0)
+        self.label_chanels.setHidden(True)
+        self.spinBox5.setHidden(True)
+
         btnG = QPushButton("Run")
         myFont=QtGui.QFont()
         myFont.setBold(True)
@@ -147,6 +156,8 @@ class mssr_caller(QWidget):
         self.layout().addWidget(self.spinBoxS)
         self.layout().addSpacing(20)
         self.layout().addWidget(btnB)
+        self.layout().addWidget(self.label_chanels)
+        self.layout().addWidget(self.spinBox5)
         self.layout().addSpacing(30)
         self.layout().addWidget(btnG)
 
@@ -217,6 +228,8 @@ class mssr_caller(QWidget):
 
 
     def batch(self):
+        self.label_chanels.setHidden(False)
+        self.spinBox5.setHidden(False)
         self.flagBatch = True
         self.my_files, other_data = QFileDialog.getOpenFileNames(self, "Select Files")
         first = self.my_files[0].split("/")
@@ -226,7 +239,9 @@ class mssr_caller(QWidget):
 
 
     def _run(self):
-        if str(self.viewer.layers.selection.active) == 'None' and self.flagBatch == True:
+        #This section is for the batch analysis
+        #if str(self.viewer.layers.selection.active) == 'None' and self.flagBatch == True:
+        if self.flagBatch == True:
             self.flagBatch = False
             fwhm = self.DoubleSpinBox1.value()
             amp = self.spinBox1.value()
@@ -251,6 +266,7 @@ class mssr_caller(QWidget):
 
             if tempAn == False:
                 os.mkdir(self.results_dir)
+                napari.utils.notifications.show_info("MSSR_results file created")
                 for el in self.my_files:
                     try:
                         img = io.imread(el)
@@ -259,9 +275,16 @@ class mssr_caller(QWidget):
                     if len(img.shape) == 2:
                         processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                         io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+
                     elif len(img.shape) == 3:
                         processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                         io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+
+                    elif len(img.shape) == 4:
+                        channel_val = self.spinBox5.value()
+                        sch_im = img[:,:,:,channel_val]
+                        processed_img = my_mssr.tMSSR(sch_im, fwhm, amp, order, mesh, ftI, intNorm)
+                        io.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(),processed_img)
             else:
                 first = self.results_dir.split("/")
                 first.pop()
@@ -270,6 +293,10 @@ class mssr_caller(QWidget):
                     tempAn_dir = my_dir + "/tMSSR_results"
                     if os.path.exists(tempAn_dir) == False:
                         os.mkdir(tempAn_dir)
+                        napari.utils.notifications.show_info("tMSSR_results file created")
+                    else:
+                        napari.utils.notifications.show_info("adding processed images to tMSSR_results")
+
 
                     for el in self.my_files:
                         try:
@@ -284,6 +311,7 @@ class mssr_caller(QWidget):
 
                 else:
                     os.mkdir(self.results_dir)
+                    napari.utils.notifications.show_info("MSSR_results file created")
                     for el in self.my_files:
                         try:
                             img = io.imread(el)
@@ -292,10 +320,13 @@ class mssr_caller(QWidget):
                         if len(img.shape) == 2:
                             processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                             io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+
                         elif len(img.shape) == 3:
                             tempAn_dir = self.results_dir + "/tMSSR_results"
                             if os.path.exists(tempAn_dir) == False:
                                 os.mkdir(tempAn_dir)
+                                napari.utils.notifications.show_info("tMSSR_results file created")
+
                             processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
                             io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
                             temp_procesed, staMeth = self.call_statistical_int_batch(processed_img)
@@ -303,11 +334,28 @@ class mssr_caller(QWidget):
                             el_format = el.split("/").pop().split(".")[-1]
                             io.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format,temp_procesed)
 
+                        elif len(img.shape) == 4:
+                            tempAn_dir = self.results_dir + "/tMSSR_results"
+                            if os.path.exists(tempAn_dir) == False:
+                                os.mkdir(tempAn_dir)
+                                napari.utils.notifications.show_info("tMSSR_results file created")
+                                
+                            channel_val = self.spinBox5.value()
+                            sch_im = img[:,:,:,channel_val]
+                            processed_img = my_mssr.tMSSR(sch_im, fwhm, amp, order, mesh, ftI, intNorm)
+                            io.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(),processed_img)
+                            temp_procesed, staMeth = self.call_statistical_int_batch(processed_img)
+                            el_name = el.split("/").pop().split(".")[0]
+                            el_format = el.split("/").pop().split(".")[-1]
+                            io.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+
+
 
 
         elif self.viewer.layers.selection.active.rgb == True:
             raise TypeError("Only single channel images are allowed")
 
+        #Here goes the viewer image analysis
         else:
             self.selected_im_name = str(self.viewer.layers.selection.active)
             img = self.viewer.layers[self.selected_im_name].data
@@ -354,6 +402,10 @@ class mssr_caller(QWidget):
                     self.viewer.add_image(processed_img, name= self.track_name)
                     self.call_statistical_int(processed_img)
                     self.flag = True
+
+        #removing the channels selction from the batch analysis option
+        self.label_chanels.setHidden(True)
+        self.spinBox5.setHidden(True)
 
         napari.utils.notifications.show_info("Process complete")
 
