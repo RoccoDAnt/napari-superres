@@ -59,8 +59,9 @@ and review the napari docs for plugin developers:
 https://napari.org/stable/plugins/index.html
 -->
 
+
 ## Installation
-First install napari viewer:
+First install napari viewer (if you haven't):
 
     conda create -y -n napari-env -c conda-forge python=3.9
     conda activate napari-env
@@ -68,13 +69,12 @@ First install napari viewer:
 
 For details check: https://napari.org/stable/
 
-<!-- Then, you can install `napari-superres` napari plugins via [pip]:
-
-    pip install napari-superres -->
 
 
 
-To install latest development version :
+You can install the plugin [graphically](https://github.com/LIBREhub/napari-LatAm-Workshop-2023/blob/napari-superres/docs/day3/napari-superres/napari-superres_installation_guide.pdf).
+
+or install latest development version :
 
     pip install git+https://github.com/RoccoDAnt/napari-superres.git
 
