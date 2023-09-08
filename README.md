@@ -72,7 +72,7 @@ For details check: https://napari.org/stable/
 
 
 
-You can install the plugin [graphically](https://github.com/LIBREhub/napari-LatAm-Workshop-2023/blob/napari-superres/docs/day3/napari-superres/napari-superres_installation_guide.pdf).
+You can install the plugin [graphically](https://github.com/LIBREhub/napari-LatAm-workshop-2023/blob/main/docs/day3/napari-superres/user%20guide.pdf).
 
 or install latest development version :
 
