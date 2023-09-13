@@ -865,13 +865,12 @@ class srrf_caller(QWidget):
             im = self.viewer.layers.selection.active.data
             self.selected_im_name = str(self.viewer.layers.selection.active)
 
-            magnification = self.spinBox1.value() #4
+            magnification = self.spinBox1.value()
             spatial_radius = self.spinBox2.value()
-            symmetryAxis = self.spinBox3.value()
             fstart = self.spinBox4.value()
             fend = self.spinBox5.value()
 
-            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, fstart, fend)
             self.the_name = "processed "+ self.selected_im_name
             self.stack_name = self.selected_im_name
             self.viewer.add_image(processed_iSRRF, name=self.the_name)
@@ -894,13 +893,12 @@ class srrf_caller(QWidget):
             im = self.viewer.layers.selection.active.data
             self.selected_im_name = str(self.viewer.layers.selection.active)
 
-            magnification = self.spinBox1.value() #4
+            magnification = self.spinBox1.value()
             spatial_radius = self.spinBox2.value()
-            symmetryAxis = self.spinBox3.value()
             fstart = self.spinBox4.value()
             fend = self.spinBox5.value()
 
-            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, fstart, fend)
             self.the_name = "processed " + self.selected_im_name
             self.stack_name = self.selected_im_name
             self.viewer.add_image(processed_iSRRF, name=self.the_name)
