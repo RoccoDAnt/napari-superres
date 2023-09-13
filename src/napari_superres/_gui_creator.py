@@ -733,15 +733,15 @@ class srrf_caller(QWidget):
         self.viewer = napari_viewer
         self.viewer.layers.selection.events.active.connect(self.pbta)
         self.the_name = " "
-    #widgets instantiation to be added to the viewer layout
-    #only vatriables to be called for other functions are set as self.
+        # widgets instantiation to be added to the viewer layout
+        # only vatriables to be called for other functions are set as self.
         self.build()
         self.pbta()
 
 
 
     def build(self):
-        #instanciating the widgets items
+        # instanciating the widgets items
         label1 = QLabel()
         label1.setText("Amplification Factor")
         self.spinBox1 = QSpinBox()
@@ -777,7 +777,7 @@ class srrf_caller(QWidget):
 
         self.ComboBoxT = QComboBox()
         self.ComboBoxT.clear()
-        self.ComboBoxT.addItems(["TPM","Var","SOFI","CV·σ"])
+        self.ComboBoxT.addItems(["TPM", "Var", "SOFI", "CV·σ"])
         self.ComboBoxT.currentTextChanged.connect(self.onActivated)
         self.ComboBoxT.setHidden(True)
 
@@ -792,7 +792,7 @@ class srrf_caller(QWidget):
         btnRun.setFont(myFont)
         btnRun.clicked.connect(self._run)
 
-        #Seting up widget layout
+        # Seting up widget layout
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(label1)
         self.layout().addWidget(self.spinBox1)
@@ -814,10 +814,10 @@ class srrf_caller(QWidget):
 
     def setTemp(self,d):
         if d == True:
-            #self.labelT.setHidden(False)
+            # self.labelT.setHidden(False)
             self.ComboBoxT.setHidden(False)
         else:
-            #self.labelT.setHidden(True)
+            # self.labelT.setHidden(True)
             self.ComboBoxT.setHidden(True)
             self.spinBoxS.setHidden(True)
 
@@ -832,12 +832,11 @@ class srrf_caller(QWidget):
         except:
             print(" ")
 
-    def onActivated(self,s):
+    def onActivated(self, s):
         if s == "SOFI":
             self.spinBoxS.setHidden(False)
         else:
             self.spinBoxS.setHidden(True)
-
 
     def _run(self):
 
@@ -860,7 +859,7 @@ class srrf_caller(QWidget):
             output_name = staMeth + " SRRF " + self.stack_name
             self.viewer.add_image(tIm, name=output_name)
 
-        elif not(exist_flag) and self.CheckBox1.checkState() == 2:
+        elif not (exist_flag) and self.CheckBox1.checkState() == 2:
 
             im = self.viewer.layers.selection.active.data
             self.selected_im_name = str(self.viewer.layers.selection.active)
@@ -876,7 +875,7 @@ class srrf_caller(QWidget):
             self.viewer.add_image(processed_iSRRF, name=self.the_name)
             stack_flag = True
             srrf_im = my_mssr.tMean(processed_iSRRF)
-            self.viewer.add_image(srrf_im, name="SRRF "+ self.selected_im_name)
+            self.viewer.add_image(srrf_im, name="SRRF " + self.selected_im_name)
 
             staMeth = self.ComboBoxT.currentText()
             if staMeth == "TPM":
