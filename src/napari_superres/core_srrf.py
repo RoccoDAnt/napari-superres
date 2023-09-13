@@ -1,12 +1,7 @@
 ################# SRRF ########
-from skimage import io
-import math
 import numpy as np
-from scipy.interpolate import griddata
-from napari.utils import progress
-
-from nanopyx.core.utils.timeit import timeit2
 from nanopyx.methods.SRRF_workflow import SRRF
+from nanopyx.core.transform.sr_temporal_correlations import calculate_SRRF_temporal_correlations
 
 
 ##################### Functions #####################
@@ -17,8 +12,13 @@ class srrf_class:
     def conection_test(self):
         print("conected")
 
-    @timeit2
-    def srrf(self, img_layer, magnification, spatialRadius, fstart, fend) :
-        return SRRF(img_layer.data[fstart:fend+1],
-                    magnification=magnification,
-                    ringRadius=spatialRadius).calculate()
+    def srrf(self, img_layer, magnification, spatialRadius, fstart, fend):
+        img = np.array(img_layer.data)
+        n, w, h, = img.shape
+        irm = np.zeros((fend - fstart, w*magnification, h*magnification))
+        srrf_generator = SRRF(
+                            img[fstart:fend+1],
+                            magnification=magnification,
+                            ringRadius=spatialRadius)
+        irm = np.array(srrf_generator.calculate()[0])
+        return irm
