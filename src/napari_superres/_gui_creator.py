@@ -756,13 +756,6 @@ class srrf_caller(QWidget):
         self.spinBox2.setMaximum(10)
         self.spinBox2.setValue(5)
 
-        label3 = QLabel()
-        label3.setText("Symetry Axis")
-        self.spinBox3 = QSpinBox()
-        self.spinBox3.setMinimum(1)
-        self.spinBox3.setMaximum(10)
-        self.spinBox3.setValue(6)
-
         label4 = QLabel()
         label4.setText("Start frame")
         self.spinBox4 = QSpinBox()
