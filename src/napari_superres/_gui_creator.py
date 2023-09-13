@@ -753,7 +753,7 @@ class srrf_caller(QWidget):
         label2.setText("Spatial radius")
         self.spinBox2 = QDoubleSpinBox()
         self.spinBox2.setMinimum(0.1)
-        self.spinBox2.setMaximum(1.0)
+        self.spinBox2.setMaximum(3.0)
         self.spinBox2.setValue(0.5)
 
         label4 = QLabel()
