@@ -339,7 +339,7 @@ class mssr_caller(QWidget):
                             if os.path.exists(tempAn_dir) == False:
                                 os.mkdir(tempAn_dir)
                                 napari.utils.notifications.show_info("tMSSR_results file created")
-                                
+
                             channel_val = self.spinBox5.value()
                             sch_im = img[:,:,:,channel_val]
                             processed_img = my_mssr.tMSSR(sch_im, fwhm, amp, order, mesh, ftI, intNorm)
@@ -387,20 +387,20 @@ class mssr_caller(QWidget):
 
             if len(img.shape) == 2:
                 processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                self.viewer.add_image(processed_img, name="MSSR "+self.selected_im_name)
+                self.viewer.add_image(processed_img, name="MSSR-amp="+str(amp)+"_fwhm="+str(fwhm)+"_order="+str(order)+"_"+self.selected_im_name)
             elif len(img.shape) == 3 and tempAn == False:
                 processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                self.track_name = "MSSR "+self.selected_im_name
+                self.track_name = "MSSR-amp="+str(amp)+"_fwhm="+str(fwhm)+"_order="+str(order)+"_"+self.selected_im_name
                 self.viewer.add_image(processed_img, name= self.track_name)
                 self.flag = True
             elif len(img.shape) == 3 and tempAn == True:
                 if self.flag == True:
-                    self.call_statistical_int(self.viewer.layers.selection.active.data)
+                    self.call_statistical_int(self.viewer.layers.selection.active.data,  fwhm, amp, order)
                 else:
                     processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                    self.track_name = "MSSR "+self.selected_im_name
+                    self.track_name = "MSSR-amp="+str(amp)+"_fwhm="+str(fwhm)+"_order="+str(order)+"_"+self.selected_im_name
                     self.viewer.add_image(processed_img, name= self.track_name)
-                    self.call_statistical_int(processed_img)
+                    self.call_statistical_int(processed_img, fwhm, amp, order)
                     self.flag = True
 
         #removing the channels selction from the batch analysis option
@@ -412,7 +412,7 @@ class mssr_caller(QWidget):
 
 
 
-    def call_statistical_int(self,processed_img):
+    def call_statistical_int(self,processed_img, fwhm, amp, order):
         staMeth = self.ComboBoxT.currentText()
         if staMeth == "TPM":
             print("TPM")
@@ -432,7 +432,7 @@ class mssr_caller(QWidget):
         if self.flag == True:
             self.viewer.add_image(tIm, name="t"+self.selected_im_name+" "+staMeth)
         else:
-            self.viewer.add_image(tIm, name="tMSSR "+self.selected_im_name+" "+staMeth)
+            self.viewer.add_image(tIm, name="tMSSR-amp="+str(amp)+"_fwhm="+str(fwhm)+"_order="+str(order)+"_"+self.selected_im_name+" "+staMeth)
 
 
     def call_statistical_int_batch(self,processed_img):
