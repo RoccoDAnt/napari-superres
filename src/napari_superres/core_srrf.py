@@ -1,6 +1,6 @@
 ################# SRRF ########
 import numpy as np
-from nanopyx.methods.SRRF_workflow import SRRF
+from nanopyx.methods import SRRF
 from nanopyx.core.transform.sr_temporal_correlations import calculate_SRRF_temporal_correlations
 
 
@@ -16,9 +16,10 @@ class srrf_class:
         img = np.array(img_layer.data)
         n, w, h, = img.shape
         irm = np.zeros((fend - fstart, w*magnification, h*magnification))
-        srrf_generator = SRRF(
-                            img[fstart:fend+1],
-                            magnification=magnification,
-                            ringRadius=spatialRadius)
-        irm = np.array(srrf_generator.calculate()[0])
+        irm = SRRF(
+            img[fstart:fend+1],
+            magnification=magnification,
+            ringRadius=spatialRadius
+            )
+        irm = np.array(irm[0])
         return irm
