@@ -733,15 +733,15 @@ class srrf_caller(QWidget):
         self.viewer = napari_viewer
         self.viewer.layers.selection.events.active.connect(self.pbta)
         self.the_name = " "
-    #widgets instantiation to be added to the viewer layout
-    #only vatriables to be called for other functions are set as self.
+        # widgets instantiation to be added to the viewer layout
+        # only vatriables to be called for other functions are set as self.
         self.build()
         self.pbta()
 
 
 
     def build(self):
-        #instanciating the widgets items
+        # instanciating the widgets items
         label1 = QLabel()
         label1.setText("Amplification Factor")
         self.spinBox1 = QSpinBox()
@@ -751,17 +751,10 @@ class srrf_caller(QWidget):
 
         label2 = QLabel()
         label2.setText("Spatial radius")
-        self.spinBox2 = QSpinBox()
-        self.spinBox2.setMinimum(1)
-        self.spinBox2.setMaximum(10)
-        self.spinBox2.setValue(5)
-
-        label3 = QLabel()
-        label3.setText("Symetry Axis")
-        self.spinBox3 = QSpinBox()
-        self.spinBox3.setMinimum(1)
-        self.spinBox3.setMaximum(10)
-        self.spinBox3.setValue(6)
+        self.spinBox2 = QDoubleSpinBox()
+        self.spinBox2.setMinimum(0.1)
+        self.spinBox2.setMaximum(3.0)
+        self.spinBox2.setValue(0.5)
 
         label4 = QLabel()
         label4.setText("Start frame")
@@ -784,7 +777,7 @@ class srrf_caller(QWidget):
 
         self.ComboBoxT = QComboBox()
         self.ComboBoxT.clear()
-        self.ComboBoxT.addItems(["TPM","Var","SOFI","CV·σ"])
+        self.ComboBoxT.addItems(["TPM", "Var", "SOFI", "CV·σ"])
         self.ComboBoxT.currentTextChanged.connect(self.onActivated)
         self.ComboBoxT.setHidden(True)
 
@@ -799,16 +792,13 @@ class srrf_caller(QWidget):
         btnRun.setFont(myFont)
         btnRun.clicked.connect(self._run)
 
-        #Seting up widget layout
+        # Seting up widget layout
         self.setLayout(QVBoxLayout())
         self.layout().addWidget(label1)
         self.layout().addWidget(self.spinBox1)
         self.layout().addSpacing(30)
         self.layout().addWidget(label2)
         self.layout().addWidget(self.spinBox2)
-        self.layout().addSpacing(30)
-        self.layout().addWidget(label3)
-        self.layout().addWidget(self.spinBox3)
         self.layout().addSpacing(30)
         self.layout().addWidget(label4)
         self.layout().addWidget(self.spinBox4)
@@ -824,10 +814,10 @@ class srrf_caller(QWidget):
 
     def setTemp(self,d):
         if d == True:
-            #self.labelT.setHidden(False)
+            # self.labelT.setHidden(False)
             self.ComboBoxT.setHidden(False)
         else:
-            #self.labelT.setHidden(True)
+            # self.labelT.setHidden(True)
             self.ComboBoxT.setHidden(True)
             self.spinBoxS.setHidden(True)
 
@@ -842,12 +832,11 @@ class srrf_caller(QWidget):
         except:
             print(" ")
 
-    def onActivated(self,s):
+    def onActivated(self, s):
         if s == "SOFI":
             self.spinBoxS.setHidden(False)
         else:
             self.spinBoxS.setHidden(True)
-
 
     def _run(self):
 
@@ -870,24 +859,23 @@ class srrf_caller(QWidget):
             output_name = staMeth + " SRRF " + self.stack_name
             self.viewer.add_image(tIm, name=output_name)
 
-        elif not(exist_flag) and self.CheckBox1.checkState() == 2:
+        elif not (exist_flag) and self.CheckBox1.checkState() == 2:
 
             im = self.viewer.layers.selection.active.data
             self.selected_im_name = str(self.viewer.layers.selection.active)
 
-            magnification = self.spinBox1.value() #4
+            magnification = self.spinBox1.value()
             spatial_radius = self.spinBox2.value()
-            symmetryAxis = self.spinBox3.value()
             fstart = self.spinBox4.value()
             fend = self.spinBox5.value()
 
-            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, fstart, fend)
             self.the_name = "processed "+ self.selected_im_name
             self.stack_name = self.selected_im_name
             self.viewer.add_image(processed_iSRRF, name=self.the_name)
             stack_flag = True
             srrf_im = my_mssr.tMean(processed_iSRRF)
-            self.viewer.add_image(srrf_im, name="SRRF "+ self.selected_im_name)
+            self.viewer.add_image(srrf_im, name="SRRF " + self.selected_im_name)
 
             staMeth = self.ComboBoxT.currentText()
             if staMeth == "TPM":
@@ -904,13 +892,12 @@ class srrf_caller(QWidget):
             im = self.viewer.layers.selection.active.data
             self.selected_im_name = str(self.viewer.layers.selection.active)
 
-            magnification = self.spinBox1.value() #4
+            magnification = self.spinBox1.value()
             spatial_radius = self.spinBox2.value()
-            symmetryAxis = self.spinBox3.value()
             fstart = self.spinBox4.value()
             fend = self.spinBox5.value()
 
-            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, symmetryAxis, fstart, fend)
+            processed_iSRRF = my_srrf.srrf(im, magnification, spatial_radius, fstart, fend)
             self.the_name = "processed " + self.selected_im_name
             self.stack_name = self.selected_im_name
             self.viewer.add_image(processed_iSRRF, name=self.the_name)
