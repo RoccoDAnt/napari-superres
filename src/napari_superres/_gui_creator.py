@@ -15,6 +15,7 @@ from matplotlib.figure import Figure
 from skimage import io
 import datetime
 import pathlib
+import tifffile as tifff
 
 
 if TYPE_CHECKING:
@@ -269,22 +270,34 @@ class mssr_caller(QWidget):
                 napari.utils.notifications.show_info("MSSR_results file created")
                 for el in self.my_files:
                     try:
-                        img = io.imread(el)
+                        img = tifff.imread(el)
                     except:
                         continue
                     if len(img.shape) == 2:
                         processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                        io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                        max_val = np.max(processed_img)
+                        min_val = np.min(processed_img)
+                        processed_img_resized = np.divide(processed_img-min_val, max_val)*65535
+                        processed_img_resized = np.uint16(processed_img_resized)
+                        tifff.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img_resized , imagej = 'true')
 
                     elif len(img.shape) == 3:
                         processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                        io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                        max_val = np.max(processed_img)
+                        min_val = np.min(processed_img)
+                        processed_img_resized = np.divide(processed_img - min_val, max_val)*65535
+                        processed_img_resized = np.uint16(processed_img_resized)
+                        tifff.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img_resized, imagej = 'true')
 
                     elif len(img.shape) == 4:
                         channel_val = self.spinBox5.value()
                         sch_im = img[:,:,:,channel_val]
                         processed_img = my_mssr.tMSSR(sch_im, fwhm, amp, order, mesh, ftI, intNorm)
-                        io.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(),processed_img)
+                        max_val = np.max(processed_img)
+                        min_val = np.min(processed_img)
+                        processed_img_resized = np.divide(processed_img-min_val, max_val)*65535
+                        processed_img_resized = np.uint16(processed_img_resized)
+                        tifff.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(), processed_img_resized, imagej = 'true')
             else:
                 first = self.results_dir.split("/")
                 first.pop()
@@ -300,26 +313,36 @@ class mssr_caller(QWidget):
 
                     for el in self.my_files:
                         try:
-                            img = io.imread(el)
+                            img = tifff.imread(el)
                         except:
                             continue
                         if len(img.shape) == 3:
                             temp_procesed, staMeth = self.call_statistical_int_batch(img)
                             el_name = el.split("/")[-1].split(".")[0]
                             el_format = el.split(".")[-1]
-                            io.imsave(tempAn_dir+"/"+"t"+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+                            max_val_t = np.max(temp_procesed)
+                            min_val_t = np.min(temp_procesed)
+                            temp_processed_resized = np.divide(temp_procesed-min_val_t, max_val_t)*65535
+                            temp_processed_resized = np.uint16(temp_processed_resized)
+                            tifff.imsave(tempAn_dir+"/"+"t"+ el_name + " " + staMeth + "." + el_format, temp_processed_resized, imagej = 'true')
+
 
                 else:
                     os.mkdir(self.results_dir)
                     napari.utils.notifications.show_info("MSSR_results file created")
                     for el in self.my_files:
                         try:
-                            img = io.imread(el)
+                            img = tifff.imread(el)
                         except:
                             continue
                         if len(img.shape) == 2:
                             processed_img = my_mssr.sfMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                            io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                            max_val = np.max(processed_img)
+                            min_val = np.min(processed_img)
+                            processed_img_resized = np.divide(processed_img-min_val, max_val)*65535
+                            processed_img_resized = np.uint16(processed_img_resized)
+                            tifff.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img_resized, imagej = 'true')
+
 
                         elif len(img.shape) == 3:
                             tempAn_dir = self.results_dir + "/tMSSR_results"
@@ -328,11 +351,22 @@ class mssr_caller(QWidget):
                                 napari.utils.notifications.show_info("tMSSR_results file created")
 
                             processed_img = my_mssr.tMSSR(img, fwhm, amp, order, mesh, ftI, intNorm)
-                            io.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img)
+                            max_val = np.max(processed_img)
+                            min_val = np.min(processed_img)
+                            processed_img_resized = np.divide(processed_img-min_val, max_val)*65535
+                            processed_img_resized = np.uint16(processed_img_resized)
+                            tifff.imsave(self.results_dir+"/"+"MSSR "+el.split("/").pop(),processed_img_resized, imagej = 'true')
+
+
                             temp_procesed, staMeth = self.call_statistical_int_batch(processed_img)
                             el_name = el.split("/").pop().split(".")[0]
                             el_format = el.split("/").pop().split(".")[-1]
-                            io.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+                            max_val_t = np.max(temp_procesed)
+                            min_val_t = np.min(temp_procesed)
+                            temp_processed_resized = np.divide(temp_procesed-max_val_t, max_val_t)*65535
+                            temp_processed_resized = np.uint16(temp_processed_resized)
+                            tifff.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format, temp_processed_resized, imagej = 'true')
+
 
                         elif len(img.shape) == 4:
                             tempAn_dir = self.results_dir + "/tMSSR_results"
@@ -343,11 +377,19 @@ class mssr_caller(QWidget):
                             channel_val = self.spinBox5.value()
                             sch_im = img[:,:,:,channel_val]
                             processed_img = my_mssr.tMSSR(sch_im, fwhm, amp, order, mesh, ftI, intNorm)
-                            io.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(),processed_img)
+                            max_val = np.max(processed_img)
+                            min_val = np.min(processed_img)
+                            processed_img_resized = np.divide(processed_img-min_val, max_val)*65535
+                            processed_img_resized = np.uint16(processed_img_resized)
+                            tifff.imsave(self.results_dir+"/"+"MSSR "+ "ch_" + str(channel_val) + "_" + el.split("/").pop(), processed_img_resized, imagej='true')
                             temp_procesed, staMeth = self.call_statistical_int_batch(processed_img)
                             el_name = el.split("/").pop().split(".")[0]
                             el_format = el.split("/").pop().split(".")[-1]
-                            io.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format,temp_procesed)
+                            max_val_t = np.max(temp_procesed)
+                            min_val_t = np.min(temp_procesed)
+                            temp_processed_resized = np.divide(temp_procesed-min_val_t, max_val_t)*65535
+                            temp_processed_resized = np.uint16(temp_processed_resized)
+                            tifff.imsave(tempAn_dir+"/"+"tMSSR "+ el_name + " " + staMeth + "." + el_format, temp_processed_resized, imagej='true')
 
 
 
