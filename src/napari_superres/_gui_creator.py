@@ -30,7 +30,7 @@ import os
 import sys
 
 
-from .core_mssr import mssr_class
+from .core_mssr_numba import mssr_class
 from .core_esi import esi_class
 from .my_popW import Ui_MainWindow
 from .core_decor import *
@@ -63,41 +63,49 @@ class mssr_caller(QWidget):
         #instanciating the widgets items
         label1 = QLabel()
         label1.setText("Amplification Factor")
+        label1.setToolTip("Number of times the image will become larger")
         self.spinBox1 = QSpinBox()
         self.spinBox1.setMinimum(1)
         self.spinBox1.setValue(1)
 
         label3 = QLabel()
         label3.setText("Order")
+        label3.setToolTip("Number of MSSR iterations")
         self.spinBox3 = QSpinBox()
         self.spinBox3.setMinimum(0)
         self.spinBox3.setValue(0)
 
         label2 = QLabel()
         label2.setText("PSF FWHM")
+        label2.setToolTip("Image analysis subregion in pixels based on the full width at half maximum of the point spread function")
         self.DoubleSpinBox1=QDoubleSpinBox()
         self.DoubleSpinBox1.setMinimum(0.0)
         self.DoubleSpinBox1.setValue(4.2)
 
         btn1 = QPushButton("Compute \n PSF FWHM")
+        btn1.setToolTip("tool to set the PSF FWHM by either <b>Decorelation</b> or parameters' calculator")
         btn1.clicked.connect(self.calculator)
 
         label4 = QLabel()
         label4.setText("Interpolation Type")
+        label4.setToolTip("Select the method to create new pixels during magnification")
         self.ComboBox4 = QComboBox()
         self.ComboBox4.clear()
         self.ComboBox4.addItems(["Bicubic","Fourier"])
 
         self.CheckBox1 = QCheckBox()
         self.CheckBox1.setText("Minimize Meshing")
+        self.CheckBox1.setToolTip("Minimize meshing artifacts from Bicubic interpolation")
         self.CheckBox1.setChecked(True)
 
         self.CheckBox4 = QCheckBox()
         self.CheckBox4.setText("Intensity Normalization")
+        self.CheckBox4.setToolTip("Set intensity to original image max intensity")
         self.CheckBox4.setChecked(True)
 
         self.CheckBox5 = QCheckBox()
         self.CheckBox5.setText("Temporal Analysis")
+        self.CheckBox5.setToolTip("Enables pixel wise function for temporal stacks")
         self.CheckBox5.setChecked(False)
         self.CheckBox5.toggled.connect(self.setTemp)
 
@@ -116,6 +124,7 @@ class mssr_caller(QWidget):
         self.spinBoxS.setHidden(True)
 
         btnB = QPushButton("Batch Analysis")
+        btnB.setToolTip("Analize batch of images without loading it to the viewer")
         btnB.clicked.connect(self.batch)
 
         self.label_chanels = QLabel()
@@ -510,6 +519,7 @@ class esi_caller(QWidget):
 
         label1 = QLabel()
         label1.setText("# images in output")
+        label1.setToolTip("Number of images in the processed stack")
         self.spinBox1 = QSpinBox()
         self.spinBox1.setMinimum(1)
         self.spinBox1.setMaximum(200)
@@ -517,6 +527,7 @@ class esi_caller(QWidget):
 
         label2 = QLabel()
         label2.setText("# bins for entropy")
+        label2.setToolTip("Number of bins for histogram analysis, 100 is recommended")
         self.spinBox2 = QSpinBox()
         self.spinBox2.setMinimum(1)
         self.spinBox2.setMaximum(200)
@@ -524,12 +535,14 @@ class esi_caller(QWidget):
 
         label3 = QLabel()
         label3.setText("Order")
+        label3.setToolTip("Order of the statistical moments for temporal integration")
         self.spinBox3 = QSpinBox()
         self.spinBox3.setMinimum(1)
         self.spinBox3.setValue(4)
 
         self.CheckBox1 = QCheckBox()
         self.CheckBox1.setText("Intensity Normalization")
+        self.CheckBox1.setToolTip("Rescaling the intensity values of pixels in an image to a common range")
         self.CheckBox1.setChecked(True)
 
         btnG = QPushButton("Run")
@@ -597,6 +610,7 @@ class sofi_caller(QWidget):
         #instanciating the widgets items
         label1 = QLabel()
         label1.setText("Amplification Factor")
+        label1.setToolTip("Number of times the image will become larger")
         self.spinBox1 = QSpinBox()
         self.spinBox1.setMinimum(1)
         self.spinBox1.setMaximum(10)
@@ -604,6 +618,7 @@ class sofi_caller(QWidget):
 
         label2 = QLabel()
         label2.setText("Moment Order")
+        label2.setToolTip("Order of statistical moments")
         self.spinBox2 = QSpinBox()
         self.spinBox2.setMinimum(1)
         self.spinBox2.setMaximum(100)
@@ -611,6 +626,7 @@ class sofi_caller(QWidget):
 
         self.CheckBox1 = QCheckBox()
         self.CheckBox1.setText("\t\tGaussian mask\n \t\t\tparameters")
+        self.CheckBox1.setToolTip("Parameters to adjust the Gaussian mask")
         self.CheckBox1.setChecked(False)
         self.CheckBox1.toggled.connect(self.setGM)
         self.CheckBox1.setHidden(True)
@@ -635,11 +651,13 @@ class sofi_caller(QWidget):
 
         self.CheckBox2 = QCheckBox()
         self.CheckBox2.setText("\tSK deconvolution\n \t\t\tparameters")
+        self.CheckBox2.setToolTip("Parameters used to reverse blurring or degradation effects in the image")
         self.CheckBox2.setChecked(False)
         self.CheckBox2.toggled.connect(self.setSKD)
 
         self.label5 = QLabel()
         self.label5.setText("\u03BB parameter")
+        self.label5.setToolTip("Controls the level of shrinkage applied during the deconvolution process")
         self.spinBox5 = QDoubleSpinBox()
         self.spinBox5.setMinimum(1)
         self.spinBox5.setMaximum(99)
@@ -649,6 +667,7 @@ class sofi_caller(QWidget):
 
         self.label6 = QLabel()
         self.label6.setText("No. of iterations")
+        self.label6.setToolTip("Count of repetitions in the deconvolution process")
         self.spinBox6 = QSpinBox()
         self.spinBox6.setMinimum(1)
         self.spinBox6.setMaximum(100)
@@ -658,6 +677,7 @@ class sofi_caller(QWidget):
 
         self.label7 = QLabel()
         self.label7.setText("Window size")
+        self.label7.setToolTip("Determines the dimensions of the sliding window utilized during the deconvolution process")
         self.spinBox7 = QSpinBox()
         self.spinBox7.setMinimum(1)
         self.spinBox7.setMaximum(999)
@@ -786,6 +806,7 @@ class srrf_caller(QWidget):
         # instanciating the widgets items
         label1 = QLabel()
         label1.setText("Amplification Factor")
+        label1.setToolTip("Number of times the image will become larger")
         self.spinBox1 = QSpinBox()
         self.spinBox1.setMinimum(1)
         self.spinBox1.setMaximum(10)
@@ -793,6 +814,7 @@ class srrf_caller(QWidget):
 
         label2 = QLabel()
         label2.setText("Spatial radius")
+        label2.setToolTip("Determines the size of the ring used to calculate the intensity gradient vectors of nearby subpixels")
         self.spinBox2 = QDoubleSpinBox()
         self.spinBox2.setMinimum(0.1)
         self.spinBox2.setMaximum(3.0)
@@ -800,6 +822,7 @@ class srrf_caller(QWidget):
 
         label4 = QLabel()
         label4.setText("Start frame")
+        label4.setToolTip("Initial frame for working substack")
         self.spinBox4 = QSpinBox()
         self.spinBox4.setMinimum(0)
         self.spinBox4.setMaximum(1000)
@@ -807,6 +830,7 @@ class srrf_caller(QWidget):
 
         label5 = QLabel()
         label5.setText("End frame")
+        label5.setToolTip("Final frame for working substack")
         self.spinBox5 = QSpinBox()
         self.spinBox5.setMinimum(0)
         self.spinBox5.setMaximum(1000)
@@ -814,6 +838,7 @@ class srrf_caller(QWidget):
 
         self.CheckBox1 = QCheckBox()
         self.CheckBox1.setText("Change statistical\nintegration")
+        self.CheckBox1.setToolTip("Default method is average, TPM, Var, SOFI, CV·σ are also available")
         self.CheckBox1.setChecked(False)
         self.CheckBox1.toggled.connect(self.setTemp)
 
@@ -966,6 +991,7 @@ class musical_caller(QWidget):
         #instanciating the widgets items
         label1 = QLabel()
         label1.setText("Emission λ [nm]")
+        label1.setToolTip("Sample emmision wavelength")
         self.spinBox1 = QSpinBox()
         self.spinBox1.setMinimum(150)
         self.spinBox1.setMaximum(999)
@@ -973,6 +999,7 @@ class musical_caller(QWidget):
 
         label2 = QLabel()
         label2.setText("Numerical Aperture")
+        label2.setToolTip("Microscope's objective numerical aperture")
         self.DspinBox1 = QDoubleSpinBox()
         self.DspinBox1.setMinimum(0)
         self.DspinBox1.setMaximum(10)
@@ -980,6 +1007,7 @@ class musical_caller(QWidget):
 
         label3 = QLabel()
         label3.setText("Magnification")
+        label3.setToolTip("Optical system magnification")
         self.spinBox2 = QSpinBox()
         self.spinBox2.setMinimum(1)
         self.spinBox2.setMaximum(999)
@@ -987,16 +1015,19 @@ class musical_caller(QWidget):
 
         label4 = QLabel()
         label4.setText("Pixel size [nm]")
+        label4.setToolTip("Camera defined pixel size")
         self.spinBox3 = QSpinBox()
         self.spinBox3.setMinimum(1)
         self.spinBox3.setMaximum(9999)
         self.spinBox3.setValue(8000)
 
         self.plot_button = QPushButton("Plot singular values")
+        self.plot_button.setToolTip("Plot of singular values of the eigenvalues, inflection point discriminates Poisson noise from data")
         self.plot_button.clicked.connect(self.set_plot)
 
         label5 = QLabel()
         label5.setText("Threshold")
+        label5.setToolTip("Noise threshold, user must define based on the singular values plot")
         self.DspinBox2 = QDoubleSpinBox()
         self.DspinBox2.setMinimum(-10)
         self.DspinBox2.setMaximum(10)
@@ -1004,6 +1035,7 @@ class musical_caller(QWidget):
 
         label6 = QLabel()
         label6.setText("Alpha")
+        label6.setToolTip("Parameter that helps determine the presence or absence of fluorophores or desired structures in the image")
         self.spinBox4 = QSpinBox()
         self.spinBox4.setMinimum(0)
         self.spinBox4.setMaximum(99)
@@ -1011,6 +1043,7 @@ class musical_caller(QWidget):
 
         label7 = QLabel()
         label7.setText("Subpixels per pixel")
+        label7.setToolTip("Number of pixel created for each pixel during interpolation")
         self.spinBox5 = QSpinBox()
         self.spinBox5.setMinimum(1)
         self.spinBox5.setMaximum(99)

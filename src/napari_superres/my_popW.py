@@ -56,8 +56,7 @@ class Ui_MainWindow(QtWidgets.QMainWindow):
         self.pushButtonCom2.setGeometry(QtCore.QRect(210, 300, 112, 34))
         self.pushButtonCom2.setStyleSheet("color: rgb(255, 255, 255);\n"
 "background-color: rgb(65, 72, 81);\n"
-"font: 75 8pt \"MS Shell Dlg 2\";")
-        self.pushButtonCom2.setObjectName("pushButtonCom2")
+"font: 75 9pt \"MS Shell Dlg 2\";")
         self.label_3P = QtWidgets.QLabel(self.centralwidget)
         self.label_3P.setGeometry(QtCore.QRect(30, 180, 201, 25))
         self.label_3P.setStyleSheet("color: rgb(255, 255, 255);\n"
