@@ -3,6 +3,7 @@ import numba.cuda
 import numpy as np
 import math
 import scipy.interpolate as interpolate
+from napari.utils import progress
 
 
 @numba.njit(parallel=True)
@@ -12,6 +13,7 @@ def cpu_max_diff(img: np.ndarray, hs: int) -> np.ndarray:
     for i in numba.prange(height):
         for j in numba.prange(width):
             max_diff[i, j] = np.max(np.abs(img[max(i - hs, 0) : i + hs + 1, max(j - hs, 0) : j + hs + 1] - img[i, j]))
+        print(i, height)
     return max_diff
 
 
@@ -24,6 +26,7 @@ def cpu_mean_shift(padded: np.ndarray, hs: int, max_diff: np.ndarray, kernel: np
             window = padded[i : i + 2 * hs + 1, j : j + 2 * hs + 1]
             weights = np.exp(-(((window - padded[i + hs, j + hs]) / max_diff[i, j]) ** 2)) * kernel
             y[i, j] = (window * weights).sum() / weights.sum()
+        print(i, (height - 2 * hs))
 
     return y
 
