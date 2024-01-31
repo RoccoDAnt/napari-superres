@@ -1,24 +1,27 @@
+import math
+
+import napari.utils
 import numba
 import numba.cuda
+import numba_progress
 import numpy as np
-import math
 import scipy.interpolate as interpolate
-from napari.utils import progress
 
 
 @numba.njit(parallel=True)
-def cpu_max_diff(img: np.ndarray, hs: int) -> np.ndarray:
+def cpu_max_diff(img: np.ndarray, hs: int, progress_proxy=None) -> np.ndarray:
     height, width = img.shape
     max_diff = np.zeros((height, width))
     for i in numba.prange(height):
         for j in numba.prange(width):
             max_diff[i, j] = np.max(np.abs(img[max(i - hs, 0) : i + hs + 1, max(j - hs, 0) : j + hs + 1] - img[i, j]))
-        print(i, height)
+        if progress_proxy is not None:
+            progress_proxy.update(width)
     return max_diff
 
 
 @numba.njit(parallel=True)
-def cpu_mean_shift(padded: np.ndarray, hs: int, max_diff: np.ndarray, kernel: np.ndarray) -> np.ndarray:
+def cpu_mean_shift(padded: np.ndarray, hs: int, max_diff: np.ndarray, kernel: np.ndarray, progress_proxy=None) -> np.ndarray:
     height, width = padded.shape
     y = np.zeros((height - 2 * hs, width - 2 * hs), dtype=np.float64)
     for i in numba.prange(height - 2 * hs):
@@ -26,7 +29,8 @@ def cpu_mean_shift(padded: np.ndarray, hs: int, max_diff: np.ndarray, kernel: np
             window = padded[i : i + 2 * hs + 1, j : j + 2 * hs + 1]
             weights = np.exp(-(((window - padded[i + hs, j + hs]) / max_diff[i, j]) ** 2)) * kernel
             y[i, j] = (window * weights).sum() / weights.sum()
-        print(i, (height - 2 * hs))
+        if progress_proxy is not None:
+            progress_proxy.update(width)
 
     return y
 
@@ -71,7 +75,6 @@ def cuda_mean_shift(padded: np.ndarray, hs: int, max_diff: np.ndarray, kernel: n
             cum_value += padded[i + k, j + l] * weight
 
     output[i, j] = cum_value / cum_weight
-
 
 
 class mssr_class:
@@ -137,6 +140,8 @@ class mssr_class:
 
     # Spatial MSSR
     def sfMSSR(self, img, fwhm, amp, order, mesh=True, ftI=False, intNorm=True, device="cuda"):
+        napari_progress = napari.utils.progress(total=10)
+        napari_progress.set_description("Interpolate")
         assert device in ("cpu", "cuda")
 
         if device == "cuda" and not numba.cuda.is_available():
@@ -155,16 +160,25 @@ class mssr_class:
         elif amp > 1 and ftI:
             img = self.ftInterp(img, amp, mesh)
 
+        napari_progress.update(2)
+        napari_progress.set_description("Max diff")
+
         i = np.arange(-hs, hs + 1)
         j = np.arange(-hs, hs + 1)
         kernel = np.exp(-(i[None] ** 2 + j[:, None] ** 2) / hs**2)
         kernel[hs, hs] = 0
 
-
         if device == "cpu":
-            max_diff = cpu_max_diff(img, hs)
-            max_diff[max_diff == 0] = 1  # Prevent 0 division
-            MS = img - cpu_mean_shift(np.pad(img, hs, "symmetric"), hs, max_diff, kernel)
+            with numba_progress.ProgressBar(total=img.size, desc="Max Diff", leave=False) as progress_proxy:
+                max_diff = cpu_max_diff(img, hs, progress_proxy)
+                max_diff[max_diff == 0] = 1  # Prevent 0 division
+
+            napari_progress.update(3)
+            napari_progress.set_description("Mean Shift")
+            with numba_progress.ProgressBar(total=img.size, desc="Mean Shift", leave=False) as progress_proxy:
+                MS = img - cpu_mean_shift(np.pad(img, hs, "symmetric"), hs, max_diff, kernel, progress_proxy)
+            napari_progress.update(5)
+            napari_progress.set_description("MSSR")
         else:
             max_tpb = numba.cuda.get_current_device().MAX_THREADS_PER_BLOCK
             max_tpb = 20
@@ -174,6 +188,9 @@ class mssr_class:
             max_diff = numba.cuda.device_array_like(img)
             output = numba.cuda.device_array_like(img)
             cuda_max_diff[blocks, (tpb, tpb)](numba.cuda.to_device(img), hs, max_diff)
+
+            napari_progress.update(3)
+            napari_progress.set_description("Mean Shift")
             cuda_mean_shift[blocks, (tpb, tpb)](
                 numba.cuda.to_device(np.pad(img, hs, "symmetric")),
                 hs,
@@ -182,6 +199,8 @@ class mssr_class:
                 output,
             )
             MS = img - output
+            napari_progress.update(5)
+            napari_progress.set_description("MSSR")
 
         MS[MS < 0] = 0
         I3 = MS / MS.max()
@@ -199,6 +218,8 @@ class mssr_class:
             IMSSR = I3 * img
         else:
             IMSSR = I3
+
+        napari_progress.close()
         return IMSSR
 
     #Temporal MSSR
