@@ -120,7 +120,7 @@ class mssr_caller(QWidget):
 
         self.spinBoxS = QSpinBox()
         self.spinBoxS.setMinimum(1)
-        self.spinBoxS.setMaximum(3)
+        self.spinBoxS.setMaximum(2)
         self.spinBoxS.setHidden(True)
 
         btnB = QPushButton("Batch Analysis")
@@ -621,8 +621,8 @@ class sofi_caller(QWidget):
         label2.setToolTip("Order of statistical moments")
         self.spinBox2 = QSpinBox()
         self.spinBox2.setMinimum(1)
-        self.spinBox2.setMaximum(100)
-        self.spinBox2.setValue(4)
+        self.spinBox2.setMaximum(2)
+        self.spinBox2.setValue(2)
 
         self.CheckBox1 = QCheckBox()
         self.CheckBox1.setText("\t\tGaussian mask\n \t\t\tparameters")
