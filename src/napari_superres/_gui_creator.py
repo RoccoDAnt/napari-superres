@@ -80,7 +80,7 @@ class mssr_caller(QWidget):
         label2.setToolTip("Image analysis subregion in pixels based on the full width at half maximum of the point spread function")
         self.DoubleSpinBox1=QDoubleSpinBox()
         self.DoubleSpinBox1.setMinimum(0.0)
-        self.DoubleSpinBox1.setValue(4.2)
+        self.DoubleSpinBox1.setValue(3.0)
 
         btn1 = QPushButton("Compute \n PSF FWHM")
         btn1.setToolTip("tool to set the PSF FWHM by either <b>Decorelation</b> or parameters' calculator")
