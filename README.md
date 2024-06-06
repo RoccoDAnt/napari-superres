@@ -65,7 +65,7 @@ First install napari viewer (if you haven't):
 
     conda create -y -n napari-env -c conda-forge python=3.9
     conda activate napari-env
-    pip install "napari[all]"
+    conda install -c conda-forge napari pyqt ipywidgets
 
 For details check: https://napari.org/stable/
 
