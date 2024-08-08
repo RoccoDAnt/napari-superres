@@ -72,7 +72,7 @@ For details check: https://napari.org/stable/
 
 
 
-You can install the plugin graphically in napari. Detailed info in the [napari-superres manual](https://github.com/LIBREhub/napari-LatAm-workshop-2023/blob/main/docs/day3/napari-superres/user%20guide.pdf).
+You can install the plugin graphically in napari (detailed info in the [napari-superres manual](https://github.com/LIBREhub/napari-LatAm-workshop-2023/blob/main/docs/day3/napari-superres/user%20guide.pdf)),
 
 or install latest development version, which requires scipy<=1.13.1:
 
