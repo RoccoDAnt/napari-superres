@@ -65,18 +65,19 @@ First install napari viewer (if you haven't):
 
     conda create -y -n napari-env -c conda-forge python=3.9
     conda activate napari-env
-    conda install -c conda-forge napari pyqt ipywidgets
+    conda install -c conda-forge napari pyqt git
 
 For details check: https://napari.org/stable/
 
 
 
 
-You can install the plugin [graphically](https://github.com/LIBREhub/napari-LatAm-workshop-2023/blob/main/docs/day3/napari-superres/user%20guide.pdf).
+You can install the plugin graphically in napari. Detailed info in the [napari-superres manual](https://github.com/LIBREhub/napari-LatAm-workshop-2023/blob/main/docs/day3/napari-superres/user%20guide.pdf).
 
-or install latest development version :
+or install latest development version, which requires scipy<=1.13.1:
 
     pip install git+https://github.com/RoccoDAnt/napari-superres.git
+    conda install scipy=1.13
 
 You might need to install [git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) first.
 
